@@ -148,26 +148,56 @@
       .tilt{transform:none !important}
       .tilt:hover{transform:none}
     }
+
+    /* --- Header index réorganisé (3 lignes) --- */
+.site-header{
+  display:flex;flex-direction:column;gap:8px;margin-bottom:16px
+}
+.site-header .topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:10px 12px;border:1px solid var(--line);border-radius:16px;
+  background:linear-gradient(180deg, var(--card), var(--card-2));
+  box-shadow:0 8px 30px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.02);
+}
+.site-header .brand{display:flex;align-items:center;gap:12px;min-width:0}
+.site-header .brand-text{min-width:0}
+.site-header .title{font-size:clamp(22px,5vw,32px);font-weight:900;line-height:1.1}
+.site-header .subtitle{color:var(--muted);padding-left:4px}
+
+.top-actions{display:flex;align-items:center;gap:10px}
+#resume{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60vw}
+
+@media (max-width:540px){
+  .site-header{gap:6px;margin-bottom:12px}
+  .site-header .topbar{padding:10px;border-radius:14px}
+  .site-header .title{font-size:24px}
+  .site-header .subtitle{font-size:13px}
+  #resume{max-width:52vw}
+}
+
   </style>
 </head>
 <body>
   <div class="container">
-    <header>
-      <div class="brand" aria-label="Auto École Nounours">
-        <div class="logo" aria-hidden="true">🐻</div>
-        <div>
-          <div class="title">Auto École Nounours – Permis Moto</div>
-          <div class="subtitle">Choisissez votre mode et démarrez en confiance.</div>
-        </div>
+<header class="site-header">
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">🐻</div>
+      <div class="brand-text">
+        <div class="title">Auto École Nounours – Permis Moto</div>
       </div>
-      <div class="top-actions">
-        <span class="switch-label subtitle" aria-hidden="true" style="display:none">Thème</span>
-        <span class="pill" id="resume" hidden>🔁 Reprendre : <strong id="lastModeLabel">–</strong></span>
-        <span class="switch" id="themeSwitch" role="switch" aria-checked="false" tabindex="0" title="Basculer le thème">
-          <span class="knob" aria-hidden="true"></span>
-        </span>
-      </div>
-    </header>
+    </div>
+
+    <div class="top-actions">
+      <span class="pill" id="resume" hidden>🔁 Reprendre : <strong id="lastModeLabel">–</strong></span>
+        <span class="knob" aria-hidden="true"></span>
+      </span>
+    </div>
+  </div>
+
+  <div class="subtitle">Choisissez votre mode et démarrez en confiance.</div>
+</header>
+
 
     <!-- HERO -->
     <section class="hero tilt" aria-label="Accroche">
