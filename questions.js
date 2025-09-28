@@ -155,7 +155,7 @@ window.BANK = window.BANK || [
 
 { id:"BA19", theme:"Adhérence", level:"moyen", question:"Les passages piétons peints mouillés sont…", answers:["Très adhérents", "Glissants, à franchir droit et sans freinage", "Sans danger", "À privilégier en virage"], correct:1, explanation:"Comme plaques métalliques : franchissez droit, pas d’angle ni freinage." },
 
-{ id:"BA20", theme:"Formation", level:"moyen", question:"Le principal objectif de la trajectoire de sécurité est…", answers:["Aller plus vite", "Améliorer la visibilité et garder de la marge en cas d’imprévu", "Faire joli", "Rouler au milieu"], correct:1, explanation:"Entrée extérieure, corde tardive, sortie large = vision, stabilité, sécurité." }
+{ id:"BA20", theme:"Formation", level:"moyen", question:"Le principal objectif de la trajectoire de sécurité est…", answers:["Aller plus vite", "Améliorer la visibilité et garder de la marge en cas d’imprévu", "Faire joli", "Rouler au milieu"], correct:1, explanation:"Entrée extérieure, corde tardive, sortie large = vision, stabilité, sécurité." },
 
 
 { id:"BB1", theme:"Autoroute", level:"moyen", question:"En cas de pluie sur autoroute, la vitesse maximale autorisée est…", answers:["130 km/h", "110 km/h", "100 km/h", "90 km/h"], correct:1, explanation:"Sous pluie, la limitation passe de 130 à 110 km/h." },
@@ -196,7 +196,7 @@ window.BANK = window.BANK || [
 
 { id:"BB19", theme:"Légalité", level:"moyen", question:"Rouler sans assurance moto…", answers:["Est autorisé si on fait attention", "Est passible de fortes sanctions (amende, immobilisation, suspension)", "Est toléré en campagne", "Ne concerne que les gros cubes"], correct:1, explanation:"Assurance RC obligatoire → sinon amende, saisie, suspension." },
 
-{ id:"BB20", theme:"Éclairage", level:"moyen", question:"De nuit sur route éclairée, j’utilise…", answers:["Les feux de croisement", "Les feux de route en permanence", "Les warnings", "Pas de feu"], correct:0, explanation:"En agglomération éclairée, feu de croisement suffisant pour voir et être vu." }
+{ id:"BB20", theme:"Éclairage", level:"moyen", question:"De nuit sur route éclairée, j’utilise…", answers:["Les feux de croisement", "Les feux de route en permanence", "Les warnings", "Pas de feu"], correct:0, explanation:"En agglomération éclairée, feu de croisement suffisant pour voir et être vu." },
 
 
 { id:"BC1", theme:"Virages", level:"moyen", question:"À l’approche d’un virage inconnu en descente, je…", answers:["Freine tard en plein angle", "Réduis l’allure avant l’inclinaison et garde un filet de gaz", "Reste sur le frein avant dans l’angle", "Coupe totalement les gaz jusqu’à l’apex"], correct:1, explanation:"Freiner moto droite puis conserver un filet de gaz stabilise la moto en descente." },
