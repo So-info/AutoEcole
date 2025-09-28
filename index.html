@@ -102,8 +102,8 @@
     .ripple{position:absolute;border-radius:50%;inset:auto; pointer-events:none;transform:translate(-50%,-50%); width:6px;height:6px;opacity:.35;background:white; mix-blend-mode:overlay; filter:blur(.5px);animation:ripple .6s ease-out forwards}
     @keyframes ripple{ to{ opacity:0; width:220px; height:220px } }
 
-    .floating-cta{position:fixed;right:16px;bottom:16px;z-index:999;display:flex;gap:10px;align-items:center}
-    .floating-cta .btn{backdrop-filter:blur(6px)}
+    
+    
 
     /* Aperçu modal */
     .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .2s ease}
@@ -137,8 +137,8 @@
       .btn,.btn-lg{width:100%}
       .testis{gap:8px;padding-bottom:6px;scroll-snap-type:x mandatory}
       .tcard{min-width:82%;scroll-snap-align:start}
-      .floating-cta{left:0;right:0;bottom:calc(12px + env(safe-area-inset-bottom));justify-content:center}
-      .floating-cta .btn{width:calc(100% - 24px);border-radius:14px}
+      
+      
       .overlay .modal{width:calc(100vw - 16px);max-height:80vh}
       #resume{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     }
@@ -226,11 +226,6 @@
         </div>
       </section>
     </div>
-  </div>
-
-  <!-- CTA flottant -->
-  <div class="floating-cta" aria-hidden="false">
-    <a class="btn btn-primary btn-lg cta" data-mode="training" href="quiz.html?mode=training">✨ Commencer maintenant</a>
   </div>
 
   <!-- Toast ARIA -->
@@ -443,16 +438,7 @@
       return `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px">${time}<div class="subtitle">3 questions d’exemple</div></div>${items}`;
     }
 
-    // Hide floating CTA when a main CTA is visible (mobile overlap fix)
-    (function initFloatingCta(){
-      const floatCta = document.querySelector('.floating-cta');
-      if (!floatCta || !('IntersectionObserver' in window)) return;
-      const observer = new IntersectionObserver((entries)=>{
-        const anyVisible = entries.some((e)=> e.isIntersecting && e.intersectionRatio > 0.5);
-        floatCta.style.display = anyVisible ? 'none' : 'flex';
-      }, { threshold:[0, 0.5, 1] });
-      document.querySelectorAll('.cta').forEach((el)=> observer.observe(el));
-    })();
+    
   </script>
 </body>
 </html>
