@@ -4,38 +4,35 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0b1220" />
-  <span class="chip" aria-hidden="true">🐻 Nounours</span>
 
-<title>Auto École Nounours – Entraînement Permis Moto</title>
-<meta property="og:title" content="Auto École Nounours – Entraînement Permis Moto">
-<meta property="og:description" content="Entraînez-vous au code moto avec Auto École Nounours : séries personnalisées, filtres par thèmes et sauvegarde automatique.">
-<link rel="icon" href="/favicon-nounours.png">
+  <title>Auto École Nounours – Entraînement Permis Moto</title>
+  <meta property="og:title" content="Auto École Nounours – Entraînement Permis Moto">
+  <meta property="og:description" content="Entraînez-vous au code moto avec Auto École Nounours : séries personnalisées, filtres par thèmes et sauvegarde automatique.">
 
   <style>
     :root{
       --bg:#0b1220; --bg-soft:#0e1628; --card:#0f192e; --card-2:#0e172a; --text:#e5e7eb; --muted:#9ca3af; --line:rgba(255,255,255,.08);
       --accent:#22d3ee; --accent-2:#60a5fa; --success:#34d399; --warning:#fbbf24; --danger:#f87171; --ring:0 0 0 2px color-mix(in oklab, var(--accent) 45%, transparent);
-      --brand:#f59e0b;   /* amber 500 */
-      --brand-2:#f97316; /* orange 500 */
-      --accent:var(--brand);
-      --accent-2:var(--brand-2);
+      --brand:#f59e0b; --brand-2:#f97316; --accent:var(--brand); --accent-2:var(--brand-2);
     }
     :root[data-theme="light"]{ --bg:#f6f8fc; --bg-soft:#edf1f7; --card:#ffffff; --card-2:#f7fafc; --text:#0b1220; --muted:#586174; --line:rgba(0,0,0,.08); --accent:#0ea5e9; --accent-2:#6366f1 }
 
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{margin:0;font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial;color:var(--text);background:
-      radial-gradient(1200px 800px at 70% -10%, color-mix(in oklab, var(--bg) 80%, #172036) 0%, transparent 40%),
-      radial-gradient(900px 600px at -10% 120%, color-mix(in oklab, var(--bg) 90%, #0b1220) 0%, transparent 50%),
-      linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
-      -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+    body{
+      margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial;color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 70% -10%, color-mix(in oklab, var(--bg) 80%, #172036) 0%, transparent 40%),
+        radial-gradient(900px 600px at -10% 120%, color-mix(in oklab, var(--bg) 90%, #0b1220) 0%, transparent 50%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
+      -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility
+    }
     .container{max-width:1000px;margin:0 auto;padding:16px}
 
     header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
     .title{font-size:clamp(22px,5vw,34px);font-weight:800;letter-spacing:.2px}
     .subtitle{color:var(--muted);font-size:14px}
 
-    /* Tabs */
     .tabs{display:flex;gap:8px;align-items:center;margin:8px 0 16px;border-bottom:1px solid var(--line)}
     .tab{appearance:none;background:transparent;border:none;color:var(--muted);font-weight:700;padding:10px 14px;border-radius:10px 10px 0 0;cursor:pointer}
     .tab[aria-selected="true"]{color:var(--text);background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01));border:1px solid var(--line);border-bottom-color:transparent}
@@ -134,7 +131,10 @@
             <div class="chip" id="timer" aria-live="polite">Temps: 00:00</div>
           </div>
           <div class="answers" id="answers" role="group" aria-labelledby="q-text"></div>
-          <details id="exp-wrap" style="margin-top:10px; display:none;"><summary>Voir l'explication</summary><p class="explanation" id="explanation"></p></details>
+          <details id="exp-wrap" style="margin-top:10px; display:none;">
+            <summary>Voir l'explication</summary>
+            <p class="explanation" id="explanation"></p>
+          </details>
         </div>
         <div class="footer-sticky">
           <div class="footer">
@@ -150,6 +150,21 @@
           </div>
         </div>
       </div>
+
+      <!-- Résultats (désormais dans l'onglet Quiz) -->
+      <section id="card-result" class="card" style="display:none; margin-top:12px">
+        <div class="panel">
+          <div class="result" id="result" style="display:none">
+            <div id="score" class="score">0 / 0</div>
+            <div class="subtitle" id="score-note">—</div>
+            <div class="toolbar" style="justify-content:center">
+              <button id="btn-review" class="btn btn-primary">Revoir mes réponses</button>
+              <button id="btn-retry-wrong" class="btn">Rejouer mes erreurs</button>
+            </div>
+          </div>
+          <div id="review" class="review" style="display:none"></div>
+        </div>
+      </section>
     </section>
 
     <!-- Settings panel -->
@@ -177,15 +192,7 @@
           <div class="chip" id="pool-size">Banque de questions: …</div>
           <div class="chip" id="seed-info">Seed: auto</div>
           <div class="chip"><button id="btn-clear" class="btn btn-ghost" style="padding:6px 10px">Effacer sauvegarde</button></div>
-          <div class="result" id="result" style="display:none">
-            <div id="score" class="score">0 / 0</div>
-            <div class="subtitle" id="score-note">—</div>
-            <div class="toolbar" style="justify-content:center">
-              <button id="btn-review" class="btn btn-primary">Revoir mes réponses</button>
-              <button id="btn-retry-wrong" class="btn">Rejouer mes erreurs</button>
-            </div>
-          </div>
-          <div id="review" class="review" style="display:none"></div>
+          <!-- Le bloc résultat a été déplacé dans l'onglet Quiz -->
         </div>
       </aside>
     </section>
@@ -194,15 +201,20 @@
   <script defer src="questions.js"></script>
   <script>
     const $ = s => document.querySelector(s);
-    // Branding
-    const BRAND = 'Auto École Nounours';
-    const BRAND_SLUG = 'auto-ecole-nounours'; // utilisé pour les noms de fichiers
-    document.title = `${BRAND} – Entraînement Permis Moto`;
-
     const $$ = s => Array.from(document.querySelectorAll(s));
+    const BRAND = 'Auto École Nounours';
+    document.title = `${BRAND} – Entraînement Permis Moto`;
     const formatTime = s => `${String(Math.floor(s/60)).padStart(2,'0')}:${String(Math.floor(s%60)).padStart(2,'0')}`;
 
-    function sample(arr, n, seed){ const a = arr.slice(); let rand = Math.random; if(seed !== undefined){ let st = seed>>>0; rand = () => (st = (1664525*st + 1013904223)>>>0) / 2**32; } for(let i=a.length-1;i>0;i--){ const j = Math.floor(rand()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a.slice(0,n); }
+    // petit utilitaire sûr pour modifier display sans optional chaining en lvalue
+    const setDisplay = (sel, val) => { const el = $(sel); if (el) el.style.display = val; };
+
+    function sample(arr, n, seed){
+      const a = arr.slice(); let rand = Math.random;
+      if(seed !== undefined){ let st = seed>>>0; rand = () => (st = (1664525*st + 1013904223)>>>0) / 2**32; }
+      for(let i=a.length-1;i>0;i--){ const j = Math.floor(rand()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+      return a.slice(0,n);
+    }
     const shuffle = (arr, seed) => sample(arr, arr.length, seed);
 
     const STATE = { series: [], answers: {}, checked: {}, current: 0, startTime: null, timer: null, seed: null, count: 40, filters:{themes:new Set(), levels:new Set()} };
@@ -213,34 +225,221 @@
     function toggleTheme(){ const cur = document.documentElement.getAttribute('data-theme'); const next = cur==='light'?'dark':'light'; document.documentElement.setAttribute('data-theme', next); localStorage.setItem('theme', next); }
 
     function unique(arr){ return Array.from(new Set(arr)); }
-    function buildFilters(){ if(!Array.isArray(window.BANK)) return; const themes = unique(BANK.map(q=>q.theme)).sort(); const levels = unique(BANK.map(q=>q.level)).sort(); const thWrap = $('#themes'); thWrap.innerHTML=''; themes.forEach(t=>{ const id=`th_${t}`; const l=document.createElement('label'); l.className='chip'; l.innerHTML=`<input type="checkbox" id="${id}" data-type="theme" value="${t}" style="margin-right:6px"> ${t}`; thWrap.appendChild(l); }); const lvWrap = $('#levels'); lvWrap.innerHTML=''; levels.forEach(lv=>{ const id=`lv_${lv}`; const l=document.createElement('label'); l.className='chip'; l.innerHTML=`<input type="checkbox" id="${id}" data-type="level" value="${lv}" style="margin-right:6px"> ${lv}`; lvWrap.appendChild(l); }); $$('#themes input, #levels input').forEach(inp=>{ inp.addEventListener('change', onFilterChange, {passive:true}); }); updateFilteredPoolInfo(); }
+    function buildFilters(){
+      if(!Array.isArray(window.BANK)) return;
+      const themes = unique(BANK.map(q=>q.theme)).sort();
+      const levels = unique(BANK.map(q=>q.level)).sort();
+      const thWrap = $('#themes'); thWrap.innerHTML='';
+      themes.forEach(t=>{
+        const id=`th_${t}`; const l=document.createElement('label'); l.className='chip';
+        l.innerHTML=`<input type="checkbox" id="${id}" data-type="theme" value="${t}" style="margin-right:6px"> ${t}`;
+        thWrap.appendChild(l);
+      });
+      const lvWrap = $('#levels'); lvWrap.innerHTML='';
+      levels.forEach(lv=>{
+        const id=`lv_${lv}`; const l=document.createElement('label'); l.className='chip';
+        l.innerHTML=`<input type="checkbox" id="${id}" data-type="level" value="${lv}" style="margin-right:6px"> ${lv}`;
+        lvWrap.appendChild(l);
+      });
+      $$('#themes input, #levels input').forEach(inp=>{ inp.addEventListener('change', onFilterChange, {passive:true}); });
+      updateFilteredPoolInfo();
+    }
 
-    function getFilteredPool(){ const tSel = STATE.filters.themes; const lSel = STATE.filters.levels; return BANK.filter(q => (tSel.size? tSel.has(q.theme):true) && (lSel.size? lSel.has(q.level):true)); }
-    function updateFilteredPoolInfo(){ const pool = getFilteredPool(); const tag=$('#filtered-size'); if(tag) tag.textContent = `Pool filtré: ${pool.length}`; }
-    function onFilterChange(e){ const el=e.target; const val=el.value; const type=el.dataset.type; const set= type==='theme'? STATE.filters.themes : STATE.filters.levels; el.checked ? set.add(val) : set.delete(val); updateFilteredPoolInfo(); saveState(); }
+    function getFilteredPool(){
+      const tSel = STATE.filters.themes; const lSel = STATE.filters.levels;
+      return BANK.filter(q => (tSel.size? tSel.has(q.theme):true) && (lSel.size? lSel.has(q.level):true));
+    }
+    function updateFilteredPoolInfo(){
+      const pool = getFilteredPool(); const tag=$('#filtered-size');
+      if(tag) tag.textContent = `Pool filtré: ${pool.length}`;
+    }
+    function onFilterChange(e){
+      const el=e.target; const val=el.value; const type=el.dataset.type;
+      const set= type==='theme'? STATE.filters.themes : STATE.filters.levels;
+      el.checked ? set.add(val) : set.delete(val);
+      updateFilteredPoolInfo(); saveState();
+    }
 
-    function newSeries(withSeed){ if(!Array.isArray(window.BANK) || BANK.length===0){ alert('La banque de questions (BANK) est introuvable ou vide. Vérifie questions.js'); return; } const pool = getFilteredPool(); STATE.seed = withSeed ?? Math.floor(Math.random()*2**31); STATE.count = Math.min(Number($('#count')?.value||40), pool.length || BANK.length); const chosenFrom = pool.length? pool : BANK; const series = sample(chosenFrom, STATE.count, STATE.seed).map((q,i)=>({q, idx:i})); STATE.series = series; STATE.answers = {}; STATE.checked = {}; STATE.current = 0; STATE.startTime = Date.now(); if(STATE.timer) clearInterval(STATE.timer); STATE.timer = setInterval(updateTimer, 1000); $('#seed-info').textContent = `Seed: ${STATE.seed}`; $('#pool-size').textContent = `Banque de questions: ${BANK.length}`; $('#subtitle').textContent = `${BRAND} · Série générée aléatoirement · ${STATE.count} question${STATE.count>1?'s':''}`; $('#result').style.display='none'; $('#review').style.display='none'; renderCurrent(); updateProgress(); updateFilteredPoolInfo(); saveState(); }
+    function newSeries(withSeed){
+      if(!Array.isArray(window.BANK) || BANK.length===0){ alert('La banque de questions (BANK) est introuvable ou vide. Vérifie questions.js'); return; }
+      const pool = getFilteredPool();
+      STATE.seed = withSeed ?? Math.floor(Math.random()*2**31);
+      STATE.count = Math.min(Number($('#count')?.value||40), pool.length || BANK.length);
+      const chosenFrom = pool.length? pool : BANK;
+      const series = sample(chosenFrom, STATE.count, STATE.seed).map((q,i)=>({q, idx:i}));
+      STATE.series = series;
+      STATE.answers = {}; STATE.checked = {};
+      STATE.current = 0; STATE.startTime = Date.now();
+      if(STATE.timer) clearInterval(STATE.timer);
+      STATE.timer = setInterval(updateTimer, 1000);
 
-    function updateTimer(){ const secs = Math.floor((Date.now()-STATE.startTime)/1000); $('#timer').textContent = `Temps: ${formatTime(secs)}`; }
+      $('#seed-info').textContent = `Seed: ${STATE.seed}`;
+      $('#pool-size').textContent = `Banque de questions: ${BANK.length}`;
+      $('#subtitle').textContent = `${BRAND} · Série générée aléatoirement · ${STATE.count} question${STATE.count>1?'s':''}`;
 
-    function renderCurrent(){ const { current, series } = STATE; const item = series[current]; if(!item) return; $('#q-index').textContent = `Question ${current+1}/${series.length}`; $('#q-text').textContent = item.q.question; $('#q-meta').textContent = `Thème: ${item.q.theme} · Niveau: ${item.q.level}${item.q.multi?' · MULTI':''}`; const wrap = $('#answers'); wrap.innerHTML=''; const frag=document.createDocumentFragment(); const indices=item.q.answers.map((_,i)=>i); const order = $('#toggle-shuffle-answers')?.checked ? shuffle(indices, (STATE.seed + current)>>>0) : indices; order.forEach((ansIdx)=>{ const label=document.createElement('label'); label.className='answer'; label.tabIndex=0; const input=document.createElement('input'); input.type = item.q.multi ? 'checkbox' : 'radio'; input.name = `q_${current}`; input.value = ansIdx; input.checked = (STATE.answers[current] || new Set()).has(ansIdx); input.addEventListener('change', ()=>toggleAnswer(current, ansIdx, item.q.multi), {passive:true}); const span=document.createElement('span'); span.textContent = item.q.answers[ansIdx]; label.appendChild(input); label.appendChild(span); frag.appendChild(label); }); wrap.appendChild(frag); $('#exp-wrap').style.display='none'; $('#explanation').textContent = item.q.explanation || ''; $('#btn-prev').disabled = current===0; $('#btn-next').disabled = current===series.length-1; if($('#toggle-instant')?.checked && STATE.answers[current] && STATE.answers[current].size>0){ checkCurrent(false); } saveState(); }
+      // Masquer la carte résultat (désormais dans l'onglet Quiz)
+      setDisplay('#card-result','none');
+      setDisplay('#result','none');
+      setDisplay('#review','none');
 
-    function toggleAnswer(qIdx, ansIdx, multi){ if(!STATE.answers[qIdx]) STATE.answers[qIdx] = new Set(); const set = STATE.answers[qIdx]; if(multi){ set.has(ansIdx) ? set.delete(ansIdx) : set.add(ansIdx); } else { set.clear(); set.add(ansIdx); } if($('#toggle-instant')?.checked) checkCurrent(false); updateProgress(); saveState(); }
+      renderCurrent();
+      updateProgress();
+      updateFilteredPoolInfo();
+      saveState();
+    }
 
-    function isCorrect(q, chosen){ if(q.multi){ const corr = new Set(q.correct); if(chosen.size !== corr.size) return false; for(const c of chosen){ if(!corr.has(Number(c))) return false; } return true; } const [c] = Array.from(chosen); return Number(c) === Number(q.correct); }
+    function updateTimer(){
+      const secs = Math.floor((Date.now()-STATE.startTime)/1000);
+      $('#timer').textContent = `Temps: ${formatTime(secs)}`;
+    }
 
-    function checkCurrent(showAlert=true){ const { current, series } = STATE; const item = series[current]; const chosen = STATE.answers[current] || new Set(); if(chosen.size===0){ if(showAlert) alert('Choisissez au moins une proposition.'); return; } const ok = isCorrect(item.q, chosen); STATE.checked[current] = ok; $$('#answers .answer').forEach(el=>{ el.classList.remove('is-correct','is-wrong'); }); const right = item.q.multi ? new Set(item.q.correct) : new Set([item.q.correct]); $$('#answers .answer').forEach(el=>{ const val = Number(el.querySelector('input').value); const chosenNow = (STATE.answers[current]||new Set()).has(val); if(right.has(val)) el.classList.add('is-correct'); else if(chosenNow) el.classList.add('is-wrong'); }); if($('#toggle-explanations')?.checked) $('#exp-wrap').style.display='block'; $('#btn-next').animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}], {duration:220, easing:'ease-out'}); updateProgress(); saveState(); }
+    function renderCurrent(){
+      const { current, series } = STATE; const item = series[current]; if(!item) return;
+      $('#q-index').textContent = `Question ${current+1}/${series.length}`;
+      $('#q-text').textContent = item.q.question;
+      $('#q-meta').textContent = `Thème: ${item.q.theme} · Niveau: ${item.q.level}${item.q.multi?' · MULTI':''}`;
 
-    function updateProgress(){ const total = STATE.series.length; const answered = Object.values(STATE.answers).filter(s=>s && s.size>0).length; const correct = Object.entries(STATE.checked).filter(([_,ok])=>ok===true).length; const wrong = Object.entries(STATE.checked).filter(([_,ok])=>ok===false).length; $('#status').textContent = `${correct} correct · ${wrong} faux · ${total-answered} restants`; $('#progress').style.width = `${(answered/total)*100}%`; if(answered===total) showResults(); }
+      const wrap = $('#answers'); wrap.innerHTML='';
+      const frag=document.createDocumentFragment();
+      const indices=item.q.answers.map((_,i)=>i);
+      const order = $('#toggle-shuffle-answers')?.checked ? shuffle(indices, (STATE.seed + current)>>>0) : indices;
+      order.forEach((ansIdx)=>{
+        const label=document.createElement('label'); label.className='answer'; label.tabIndex=0;
+        const input=document.createElement('input'); input.type = item.q.multi ? 'checkbox' : 'radio';
+        input.name = `q_${current}`; input.value = ansIdx;
+        input.checked = (STATE.answers[current] || new Set()).has(ansIdx);
+        input.addEventListener('change', ()=>toggleAnswer(current, ansIdx, item.q.multi), {passive:true});
+        const span=document.createElement('span'); span.textContent = item.q.answers[ansIdx];
+        label.appendChild(input); label.appendChild(span); frag.appendChild(label);
+      });
+      wrap.appendChild(frag);
 
-    function showResults(){ const total = STATE.series.length; const correct = Object.entries(STATE.checked).filter(([_,ok])=>ok===true).length; const scoreEl = $('#score'); scoreEl.textContent = `${correct} / ${total}`; scoreEl.classList.remove('good','mid','bad'); const ratio = correct/total; if(ratio>=.8) scoreEl.classList.add('good'); else if(ratio>=.5) scoreEl.classList.add('mid'); else scoreEl.classList.add('bad'); $('#score-note').textContent = ratio>=.8? 'Excellent !' : ratio>=.5? 'Bien, encore un petit effort.' : 'Continuez : révisez vos thèmes faibles.'; $('#result').style.display='grid'; const wrap = $('#review'); wrap.innerHTML=''; STATE.series.forEach((item,i)=>{ const div = document.createElement('div'); div.className='review-item'; const ok = STATE.checked[i]===true; div.innerHTML = `<div class="status ${ok?'ok':'ko'}">${ok?'✔ Correct':'✖ Faux'} — Q${i+1} (${item.q.theme})</div><div style="font-weight:700; margin-top:4px">${item.q.question}</div><ul style="margin:8px 0 0 18px; padding:0">${item.q.answers.map((a,j)=>`<li${(item.q.multi?item.q.correct.includes(j):j===item.q.correct)?' style=\"font-weight:700\"':''}>${a}</li>`).join('')}</ul>${item.q.explanation?`<div class="explanation" style="margin-top:8px">${item.q.explanation}</div>`:''}`; wrap.appendChild(div); }); wrap.style.display='grid'; saveState(); }
+      setDisplay('#exp-wrap','none');
+      $('#explanation').textContent = item.q.explanation || '';
+      $('#btn-prev').disabled = current===0;
+      $('#btn-next').disabled = current===series.length-1;
+      if($('#toggle-instant')?.checked && STATE.answers[current] && STATE.answers[current].size>0){ checkCurrent(false); }
+      saveState();
+    }
 
-    function serializeState(){ return JSON.stringify({ STATE: { ...STATE, answers: Object.fromEntries(Object.entries(STATE.answers).map(([k,v])=>[k, Array.from(v||[])])) }, toggles:{ instant: $('#toggle-instant')?.checked, expl: $('#toggle-explanations')?.checked, shuffle: $('#toggle-shuffle-answers')?.checked }, count: Number($('#count')?.value||40) }); }
+    function toggleAnswer(qIdx, ansIdx, multi){
+      if(!STATE.answers[qIdx]) STATE.answers[qIdx] = new Set();
+      const set = STATE.answers[qIdx];
+      if(multi){ set.has(ansIdx) ? set.delete(ansIdx) : set.add(ansIdx); }
+      else { set.clear(); set.add(ansIdx); }
+      if($('#toggle-instant')?.checked) checkCurrent(false);
+      updateProgress(); saveState();
+    }
+
+    function isCorrect(q, chosen){
+      if(q.multi){
+        const corr = new Set(q.correct);
+        if(chosen.size !== corr.size) return false;
+        for(const c of chosen){ if(!corr.has(Number(c))) return false; }
+        return true;
+      }
+      const [c] = Array.from(chosen);
+      return Number(c) === Number(q.correct);
+    }
+
+    function checkCurrent(showAlert=true){
+      const { current, series } = STATE; const item = series[current];
+      const chosen = STATE.answers[current] || new Set();
+      if(chosen.size===0){ if(showAlert) alert('Choisissez au moins une proposition.'); return; }
+      const ok = isCorrect(item.q, chosen);
+      STATE.checked[current] = ok;
+
+      $$('#answers .answer').forEach(el=>{ el.classList.remove('is-correct','is-wrong'); });
+      const right = item.q.multi ? new Set(item.q.correct) : new Set([item.q.correct]);
+      $$('#answers .answer').forEach(el=>{
+        const val = Number(el.querySelector('input').value);
+        const chosenNow = (STATE.answers[current]||new Set()).has(val);
+        if(right.has(val)) el.classList.add('is-correct');
+        else if(chosenNow) el.classList.add('is-wrong');
+      });
+
+      if($('#toggle-explanations')?.checked) setDisplay('#exp-wrap','block');
+      $('#btn-next').animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}], {duration:220, easing:'ease-out'});
+      updateProgress(); saveState();
+    }
+
+    function updateProgress(){
+      const total = STATE.series.length;
+      const answered = Object.values(STATE.answers).filter(s=>s && s.size>0).length;
+      const correct = Object.entries(STATE.checked).filter(([_,ok])=>ok===true).length;
+      const wrong = Object.entries(STATE.checked).filter(([_,ok])=>ok===false).length;
+      $('#status').textContent = `${correct} correct · ${wrong} faux · ${total-answered} restants`;
+      $('#progress').style.width = `${(answered/total)*100}%`;
+      if(answered===total) showResults();
+    }
+
+    function showResults(){
+      const total = STATE.series.length;
+      const correct = Object.entries(STATE.checked).filter(([_,ok])=>ok===true).length;
+
+      const scoreEl = $('#score');
+      scoreEl.textContent = `${correct} / ${total}`;
+      scoreEl.classList.remove('good','mid','bad');
+      const ratio = correct/total;
+      if(ratio>=.8) scoreEl.classList.add('good');
+      else if(ratio>=.5) scoreEl.classList.add('mid');
+      else scoreEl.classList.add('bad');
+
+      $('#score-note').textContent = ratio>=.8 ? 'Excellent !' : ratio>=.5 ? 'Bien, encore un petit effort.' : 'Continuez : révisez vos thèmes faibles.';
+
+      // afficher la carte résultat dans le panel Quiz
+      setTab('quiz');
+      setDisplay('#card-result','block');
+      setDisplay('#result','grid');
+
+      const wrap = $('#review'); wrap.innerHTML='';
+      STATE.series.forEach((item,i)=>{
+        const div = document.createElement('div'); const ok = STATE.checked[i]===true;
+        div.className='review-item';
+        div.innerHTML = `<div class="status ${ok?'ok':'ko'}">${ok?'✔ Correct':'✖ Faux'} — Q${i+1} (${item.q.theme})</div>
+          <div style="font-weight:700; margin-top:4px">${item.q.question}</div>
+          <ul style="margin:8px 0 0 18px; padding:0">
+            ${item.q.answers.map((a,j)=>`<li${(item.q.multi?item.q.correct.includes(j):j===item.q.correct)?' style="font-weight:700"':''}>${a}</li>`).join('')}
+          </ul>
+          ${item.q.explanation?`<div class="explanation" style="margin-top:8px">${item.q.explanation}</div>`:''}`;
+        wrap.appendChild(div);
+      });
+      setDisplay('#review','grid');
+
+      document.querySelector('#card-result').scrollIntoView({behavior:'smooth'});
+      saveState();
+    }
+
+    function serializeState(){
+      return JSON.stringify({
+        STATE: { ...STATE, answers: Object.fromEntries(Object.entries(STATE.answers).map(([k,v])=>[k, Array.from(v||[])])) },
+        toggles:{ instant: $('#toggle-instant')?.checked, expl: $('#toggle-explanations')?.checked, shuffle: $('#toggle-shuffle-answers')?.checked },
+        count: Number($('#count')?.value||40)
+      });
+    }
     function saveState(){ try{ localStorage.setItem(STORAGE_KEY, serializeState()); }catch(e){} }
-    function restoreState(){ try{ const raw = localStorage.getItem(STORAGE_KEY); if(!raw) return false; const data = JSON.parse(raw); if(!data || !data.STATE) return false; Object.assign(STATE, data.STATE); Object.keys(STATE.answers).forEach(k=>{ STATE.answers[k] = new Set(STATE.answers[k]); }); if($('#toggle-instant')) $('#toggle-instant').checked = !!data.toggles?.instant; if($('#toggle-explanations')) $('#toggle-explanations').checked = data.toggles?.expl!==false; if($('#toggle-shuffle-answers')) $('#toggle-shuffle-answers').checked = data.toggles?.shuffle!==false; if($('#count')) $('#count').value = data.count || 40; return true; }catch(e){ return false; } }
+    function restoreState(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY); if(!raw) return false;
+        const data = JSON.parse(raw); if(!data || !data.STATE) return false;
+        Object.assign(STATE, data.STATE);
+        Object.keys(STATE.answers).forEach(k=>{ STATE.answers[k] = new Set(STATE.answers[k]); });
+        if($('#toggle-instant')) $('#toggle-instant').checked = !!data.toggles?.instant;
+        if($('#toggle-explanations')) $('#toggle-explanations').checked = data.toggles?.expl!==false;
+        if($('#toggle-shuffle-answers')) $('#toggle-shuffle-answers').checked = data.toggles?.shuffle!==false;
+        if($('#count')) $('#count').value = data.count || 40;
+        return true;
+      }catch(e){ return false; }
+    }
 
-    // Tabs
-    function setTab(tab){ const isQuiz = tab==='quiz'; const quizPanel=$('#panel-quiz'); const setPanel=$('#panel-settings'); quizPanel.hidden = !isQuiz; setPanel.hidden = isQuiz; $('#tabbtn-quiz').setAttribute('aria-selected', isQuiz? 'true':'false'); $('#tabbtn-settings').setAttribute('aria-selected', !isQuiz? 'true':'false'); localStorage.setItem(TAB_KEY, tab); }
+    function setTab(tab){
+      const isQuiz = tab==='quiz';
+      const quizPanel=$('#panel-quiz'); const setPanel=$('#panel-settings');
+      quizPanel.hidden = !isQuiz; setPanel.hidden = isQuiz;
+      $('#tabbtn-quiz').setAttribute('aria-selected', isQuiz? 'true':'false');
+      $('#tabbtn-settings').setAttribute('aria-selected', !isQuiz? 'true':'false');
+      localStorage.setItem(TAB_KEY, tab);
+    }
 
     // Actions
     $('#btn-prev').addEventListener('click', ()=>{ STATE.current = Math.max(0, STATE.current-1); renderCurrent(); }, {passive:true});
@@ -248,11 +447,30 @@
     $('#btn-check').addEventListener('click', ()=>checkCurrent(), {passive:true});
     $('#btn-new').addEventListener('click', ()=>newSeries(), {passive:true});
     $('#btn-reset').addEventListener('click', ()=>{ if(confirm('Réinitialiser la série en cours ?')) newSeries(STATE.seed); }, {passive:true});
-    $('#btn-review').addEventListener('click', ()=>{ setTab('settings'); document.querySelector('#review').scrollIntoView({behavior:'smooth'}); }, {passive:true});
-    $('#btn-retry-wrong').addEventListener('click', ()=>{ const wrongIdx = Object.entries(STATE.checked).filter(([_,ok])=>ok===false).map(([i])=>Number(i)); if(wrongIdx.length===0){ alert('Aucune erreur à rejouer.'); return; } const wrongQs = wrongIdx.map(i=>STATE.series[i].q); const needed = Math.max(0, STATE.count - wrongQs.length); const extra = sample(BANK.filter(q=>!wrongQs.includes(q)), needed, (STATE.seed+999)>>>0); STATE.seed = (STATE.seed+12345)>>>0; STATE.series = [...wrongQs,...extra].map((q,i)=>({q,idx:i})); STATE.answers={}; STATE.checked={}; STATE.current=0; STATE.startTime=Date.now(); setTab('quiz'); renderCurrent(); updateProgress(); window.scrollTo({top:0,behavior:'smooth'}); saveState(); }, {passive:true});
 
+    // Revoir : rester dans l’onglet Quiz
+    $('#btn-review').addEventListener('click', ()=>{
+      setTab('quiz'); setDisplay('#review','grid');
+      document.querySelector('#review').scrollIntoView({behavior:'smooth'});
+    }, {passive:true});
+
+    // Rejouer les erreurs
+    $('#btn-retry-wrong').addEventListener('click', ()=>{
+      const wrongIdx = Object.entries(STATE.checked).filter(([_,ok])=>ok===false).map(([i])=>Number(i));
+      if(wrongIdx.length===0){ alert('Aucune erreur à rejouer.'); return; }
+      const wrongQs = wrongIdx.map(i=>STATE.series[i].q);
+      const needed = Math.max(0, STATE.count - wrongQs.length);
+      const extra = sample(BANK.filter(q=>!wrongQs.includes(q)), needed, (STATE.seed+999)>>>0);
+      STATE.seed = (STATE.seed+12345)>>>0;
+      STATE.series = [...wrongQs,...extra].map((q,i)=>({q,idx:i}));
+      STATE.answers={}; STATE.checked={}; STATE.current=0; STATE.startTime=Date.now();
+      setTab('quiz'); renderCurrent(); updateProgress();
+      window.scrollTo({top:0,behavior:'smooth'}); saveState();
+    }, {passive:true});
+
+    // Paramètres
     $('#toggle-instant')?.addEventListener('change', ()=>{ renderCurrent(); saveState(); }, {passive:true});
-    $('#toggle-explanations')?.addEventListener('change', ()=>{ if(!$('#toggle-explanations').checked) $('#exp-wrap').style.display='none'; saveState(); }, {passive:true});
+    $('#toggle-explanations')?.addEventListener('change', ()=>{ if(!$('#toggle-explanations').checked) setDisplay('#exp-wrap','none'); saveState(); }, {passive:true});
     $('#toggle-shuffle-answers')?.addEventListener('change', ()=>{ renderCurrent(); saveState(); }, {passive:true});
     $('#btn-apply-filters')?.addEventListener('click', ()=>{ newSeries(); setTab('quiz'); }, {passive:true});
     $('#count')?.addEventListener('change', ()=>{ if($('#count').value<1) $('#count').value = 1; updateFilteredPoolInfo(); saveState(); });
@@ -264,6 +482,8 @@
     $('#tabbtn-settings').addEventListener('click', ()=>setTab('settings'));
 
     window.addEventListener('DOMContentLoaded', ()=>{
+      const prefersLight = window.matchMedia('(prefers-color-scheme: light)');
+      prefersLight.addEventListener?.('change', detectTheme); // optionnel
       detectTheme();
       if(!Array.isArray(window.BANK) || !BANK.length){ console.warn('BANK indisponible.'); return; }
       buildFilters();
