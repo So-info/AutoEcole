@@ -24,10 +24,56 @@
       -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility
     }
     .container{max-width:1000px;margin:0 auto;padding:16px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
     .title{font-size:clamp(20px,4.5vw,28px);font-weight:800}
     .subtitle{color:var(--muted);font-size:14px}
 
+    /* --- Barre de titre améliorée --- */
+   .quiz-header{
+  display:flex;flex-direction:column;gap:10px;
+  padding:14px;margin-bottom:14px;border-radius:16px;
+  background:linear-gradient(180deg, var(--card), var(--card-2));
+  border:1px solid var(--line);
+  box-shadow:0 8px 30px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.02);
+}
+
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+}
+
+.quiz-title{
+  display:flex;flex-direction:column;gap:4px;
+}
+.quiz-title .title{
+  font-size:clamp(22px,5vw,28px);
+  font-weight:900;
+}
+
+.mode-badge{
+  display:inline-flex;align-items:center;gap:6px;font-weight:800;
+  padding:6px 10px;border-radius:999px;font-size:13px;
+  border:1px solid var(--line);
+}
+.mode-badge.exam{ color:var(--accent); background:color-mix(in oklab, var(--accent) 18%, transparent) }
+.mode-badge.training{ color:#22c55e; background:color-mix(in oklab, #22c55e 18%, transparent) }
+
+.quiz-actions{display:flex;gap:8px}
+
+    .btn-nav{
+      padding:10px 14px;border-radius:12px;border:1px solid var(--line);
+      background:linear-gradient(180deg, var(--card), var(--card-2));
+      font-weight:700;color:var(--text);cursor:pointer;text-decoration:none;
+      transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+      box-shadow:0 6px 18px rgba(0,0,0,.14), inset 0 1px 0 rgba(255,255,255,.06);
+    }
+    .btn-nav:hover{ transform:translateY(-1px); box-shadow:0 10px 24px rgba(0,0,0,.22) }
+    .btn-nav:focus-visible{ outline:none; box-shadow: var(--ring), 0 0 0 1px color-mix(in oklab, var(--accent) 60%, transparent) }
+    .btn-nav.primary{
+      border-color: color-mix(in oklab, var(--accent) 45%, transparent);
+      background:linear-gradient(180deg, color-mix(in oklab, var(--accent) 65%, transparent), color-mix(in oklab, var(--accent-2) 45%, transparent));
+      color:white;
+    }
+
+    /* --- Boutons / cartes existants --- */
     .btn{
       display:inline-flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;
       min-height:44px;padding:12px 16px;font-weight:800;letter-spacing:.2px;border-radius:14px;
@@ -75,7 +121,7 @@
     .answer input{position:absolute;left:14px;width:22px;height:22px;margin:0;appearance:none;outline:none;border-radius:50%}
     .answer input[type="checkbox"]{border-radius:6px}
     .answer input::before{content:"";display:block;width:22px;height:22px;border-radius:inherit;border:2px solid color-mix(in oklab, var(--accent) 75%, #93c5fd 25%);box-shadow: inset 0 0 0 2px transparent}
-    .answer input:checked::before{background:linear-gradient(180deg, var(--accent), var(--accent-2));border-color:transparent;box-shadow: inset 0 0 0 2px rgba(0,0,0,.2)}
+    .answer input:checked::before{background:linear-gradient(180deg, var(--accent), var(--accent-2));border-color:transparent;box-shadow: inset 0 1px 0 rgba(0,0,0,.2)}
     .answer:has(input:focus-visible){box-shadow:var(--ring)}
     .answer.is-correct{border-color:rgba(52,211,153,.6)!important;background:rgba(52,211,153,.12)!important}
     .answer.is-wrong{border-color:rgba(248,113,113,.6)!important;background:rgba(248,113,113,.10)!important}
@@ -102,6 +148,10 @@
     .ok{color:var(--success)} .ko{color:var(--danger)}
 
     @media (max-width:520px){
+      .quiz-header{padding:10px 12px;border-radius:14px}
+      .title{font-size:20px}
+      .quiz-actions{width:100%}
+      .btn-nav{flex:1 1 0}
       .footer .toolbar{width:100%}
       .footer .toolbar .btn{flex:1 1 auto;min-width:0}
     }
@@ -109,16 +159,23 @@
 </head>
 <body>
   <div class="container">
-    <header>
-      <div>
-        <div class="title">Auto École Nounours – Quiz</div>
-        <div class="subtitle" id="subtitle">Chargement…</div>
-      </div>
-      <div class="toolbar">
-        <a href="index.html" class="btn btn-ghost">← Accueil</a>
-        <button id="btn-new" class="btn">Nouvelle série</button>
-      </div>
-    </header>
+
+    <!-- NOUVEAU HEADER -->
+<header class="quiz-header">
+  <div class="topbar">
+    <span id="mode-badge" class="mode-badge">—</span>
+    <div class="quiz-actions">
+      <a href="index.html" class="btn-nav">← Accueil</a>
+      <button id="btn-new" class="btn-nav primary">+ Nouvelle série</button>
+    </div>
+  </div>
+
+  <div class="quiz-title">
+    <span class="title">Nounours – Quiz</span>
+    <div class="subtitle" id="subtitle">Chargement…</div>
+  </div>
+</header>
+
 
     <section class="card" aria-labelledby="q-index">
       <div class="panel">
@@ -397,6 +454,18 @@
     // init
     window.addEventListener('DOMContentLoaded', ()=>{
       document.title = `Quiz – ${STATE.mode==='exam'?'Examen blanc':'Entraînement'}`;
+     // Remplit le badge de mode et le sous-texte
+(function initHeader(){
+  const badge = document.getElementById('mode-badge');
+  const isExam = (STATE.mode === 'exam');
+  badge.textContent = isExam ? '🏁 Examen blanc' : '💪 Entraînement';
+  badge.classList.toggle('exam', isExam);
+  badge.classList.toggle('training', !isExam);
+  // Le sous-texte sera réécrit par newSeries() (subtitle), on met une valeur initiale :
+  document.getElementById('subtitle').textContent =
+    isExam ? '40 questions – résultats à la fin' : '40 questions – corrections en direct';
+})();
+
       newSeries(); // génère et affiche
     });
   </script>
