@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="auto">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b1220" />
+  <span class="chip" aria-hidden="true">🐻 Nounours</span>
+
+<title>Auto École Nounours – Entraînement Permis Moto</title>
+<meta property="og:title" content="Auto École Nounours – Entraînement Permis Moto">
+<meta property="og:description" content="Entraînez-vous au code moto avec Auto École Nounours : séries personnalisées, filtres par thèmes et sauvegarde automatique.">
+<link rel="icon" href="/favicon-nounours.png">
+
+  <style>
+    :root{
+      --bg:#0b1220; --bg-soft:#0e1628; --card:#0f192e; --card-2:#0e172a; --text:#e5e7eb; --muted:#9ca3af; --line:rgba(255,255,255,.08);
+      --accent:#22d3ee; --accent-2:#60a5fa; --success:#34d399; --warning:#fbbf24; --danger:#f87171; --ring:0 0 0 2px color-mix(in oklab, var(--accent) 45%, transparent);
+      --brand:#f59e0b;   /* amber 500 */
+      --brand-2:#f97316; /* orange 500 */
+      --accent:var(--brand);
+      --accent-2:var(--brand-2);
+    }
+    :root[data-theme="light"]{ --bg:#f6f8fc; --bg-soft:#edf1f7; --card:#ffffff; --card-2:#f7fafc; --text:#0b1220; --muted:#586174; --line:rgba(0,0,0,.08); --accent:#0ea5e9; --accent-2:#6366f1 }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial;color:var(--text);background:
+      radial-gradient(1200px 800px at 70% -10%, color-mix(in oklab, var(--bg) 80%, #172036) 0%, transparent 40%),
+      radial-gradient(900px 600px at -10% 120%, color-mix(in oklab, var(--bg) 90%, #0b1220) 0%, transparent 50%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
+      -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+    .container{max-width:1000px;margin:0 auto;padding:16px}
+
+    header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+    .title{font-size:clamp(22px,5vw,34px);font-weight:800;letter-spacing:.2px}
+    .subtitle{color:var(--muted);font-size:14px}
+
+    /* Tabs */
+    .tabs{display:flex;gap:8px;align-items:center;margin:8px 0 16px;border-bottom:1px solid var(--line)}
+    .tab{appearance:none;background:transparent;border:none;color:var(--muted);font-weight:700;padding:10px 14px;border-radius:10px 10px 0 0;cursor:pointer}
+    .tab[aria-selected="true"]{color:var(--text);background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01));border:1px solid var(--line);border-bottom-color:transparent}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.02)),linear-gradient(180deg, var(--card), var(--card-2));border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.02);overflow:hidden}
+    .panel{padding:16px}
+
+    .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    .btn{cursor:pointer;min-height:44px;border:1px solid var(--line);background:linear-gradient(180deg,#0b1426,#0a1324);color:#e5e7eb;padding:12px 14px;border-radius:12px;font-weight:700;transition:.15s transform,.15s opacity,.15s box-shadow}
+    :root[data-theme="light"] .btn{background:linear-gradient(180deg,#f3f4f6,#eceff4);color:#0b1220}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.2)}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+    .btn-primary{background:linear-gradient(180deg, color-mix(in oklab, var(--accent) 30%, transparent), color-mix(in oklab, var(--accent-2) 30%, transparent));border-color:rgba(34,211,238,.35);color:var(--text)}
+    .btn-ghost{background:transparent}
+    .btn-toggle{display:flex;align-items:center;gap:8px}
+    .btn-group{display:flex;gap:8px}
+    .btn-group .btn{flex:1 1 0}
+
+    .question-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+    .q-index{font-weight:800;letter-spacing:.5px;color:var(--accent)}
+    .chip{padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.03);font-size:13px;color:var(--muted)}
+    :root[data-theme="light"] .chip{background:#f7fafc}
+
+    .answers{display:grid;gap:10px;margin-top:12px}
+    .answer{position:relative;display:flex;gap:12px;align-items:center;padding:14px 14px 14px 46px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.02);min-height:52px;transition:.12s border-color,.12s background,.12s transform}
+    :root[data-theme="light"] .answer{background:#fff}
+    .answer:hover{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.04)}
+    :root[data-theme="light"] .answer:hover{background:#f8fafc}
+    .answer input{position:absolute;left:14px;width:22px;height:22px;margin:0;appearance:none;outline:none;border-radius:50%}
+    .answer input[type="checkbox"]{border-radius:6px}
+    .answer input::before{content:"";display:block;width:22px;height:22px;border-radius:inherit;border:2px solid color-mix(in oklab, var(--accent) 75%, #93c5fd 25%);box-shadow: inset 0 0 0 2px transparent}
+    .answer input:checked::before{background:linear-gradient(180deg, var(--accent), var(--accent-2));border-color:transparent;box-shadow: inset 0 0 0 2px rgba(0,0,0,.2)}
+    .answer:has(input:focus-visible){box-shadow:var(--ring)}
+    .answer.is-correct{border-color:rgba(52,211,153,.6)!important;background:rgba(52,211,153,.12)!important}
+    .answer.is-wrong{border-color:rgba(248,113,113,.6)!important;background:rgba(248,113,113,.10)!important}
+
+    .explanation{font-size:14px;color:var(--muted);border-left:3px solid rgba(34,211,238,.4);padding-left:12px}
+
+    .footer-sticky{position:sticky;bottom:0;z-index:2;background:linear-gradient(180deg, color-mix(in oklab, var(--bg) 40%, transparent), var(--bg));backdrop-filter:blur(6px);border-top:1px solid var(--line);padding:10px;border-radius:14px}
+    .footer{display:flex;align-items:center;gap:12px}
+    .footer-progress{flex:1;display:grid;gap:6px}
+    .progress-wrap{position:relative;height:10px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden}
+    :root[data-theme="light"] .progress-wrap{background:#e5e7eb}
+    .progress{position:absolute;inset:0;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+    .pill{font-size:12px;color:var(--muted)}
+
+    .filters{display:grid;gap:8px}
+    .filters .row{display:flex;flex-wrap:wrap;gap:8px}
+    .tag{padding:6px 10px;border:1px dashed var(--line);border-radius:999px;background:rgba(255,255,255,.03);font-size:13px}
+    :root[data-theme="light"] .tag{background:#f7fafc}
+
+    .result{display:grid;gap:14px;text-align:center;padding:22px;background:radial-gradient(800px 400px at 0% 0%,rgba(34,211,238,.08),rgba(255,255,255,0))}
+    .score{font-size:clamp(34px,7vw,60px);font-weight:900;letter-spacing:-.5px}
+    .score.good{color:var(--success)} .score.mid{color:var(--warning)} .score.bad{color:var(--danger)}
+    .review{display:grid;gap:12px;margin-top:12px}
+    .review-item{border:1px solid var(--line);border-radius:14px;padding:12px;background:rgba(255,255,255,.02);box-shadow:inset 0 1px 0 rgba(255,255,255,.02)}
+    :root[data-theme="light"] .review-item{background:#fff}
+    .review-item .status{font-weight:700}
+    .ok{color:var(--success)} .ko{color:var(--danger)}
+    details summary{cursor:pointer}
+
+    @media (max-width:380px){ .panel{padding:12px} .answer{padding:12px 12px 12px 44px} .answer input{left:12px} .btn{padding:10px 12px;border-radius:10px} }
+    @media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <div class="title">Auto École Nounours – Entraînement Permis Moto</div>
+        <div class="subtitle" id="subtitle">Série d'entraînement générée aléatoirement.</div>
+      </div>
+      <div class="toolbar btn-group" aria-label="Actions générales">
+        <button id="btn-new" class="btn btn-primary">Nouvelle série</button>
+        <button id="btn-reset" class="btn btn-ghost">Réinitialiser</button>
+        <button id="btn-export" class="btn">Exporter (JSON)</button>
+        <button id="btn-theme" class="btn btn-toggle" title="Basculer le thème">🌓 Thème</button>
+      </div>
+    </header>
+
+    <nav class="tabs" role="tablist" aria-label="Navigation">
+      <button id="tabbtn-quiz" class="tab" role="tab" aria-selected="true" aria-controls="panel-quiz">Quiz</button>
+      <button id="tabbtn-settings" class="tab" role="tab" aria-selected="false" aria-controls="panel-settings">Paramètres & Infos</button>
+    </nav>
+
+    <!-- Quiz panel -->
+    <section id="panel-quiz" role="tabpanel" aria-labelledby="tabbtn-quiz">
+      <div class="card" aria-labelledby="q-index">
+        <div class="panel">
+          <div class="question-header">
+            <div>
+              <div class="q-index" id="q-index">Question 1</div>
+              <h1 id="q-text" style="margin:6px 0 0 0; font-weight:800;font-size:20px"></h1>
+              <div class="pill" id="q-meta"></div>
+            </div>
+            <div class="chip" id="timer" aria-live="polite">Temps: 00:00</div>
+          </div>
+          <div class="answers" id="answers" role="group" aria-labelledby="q-text"></div>
+          <details id="exp-wrap" style="margin-top:10px; display:none;"><summary>Voir l'explication</summary><p class="explanation" id="explanation"></p></details>
+        </div>
+        <div class="footer-sticky">
+          <div class="footer">
+            <div class="toolbar" style="flex:0 0 auto">
+              <button id="btn-prev" class="btn" disabled>Précédent</button>
+              <button id="btn-next" class="btn btn-primary">Suivant</button>
+              <button id="btn-check" class="btn">Vérifier</button>
+            </div>
+            <div class="footer-progress">
+              <div class="progress-wrap" aria-hidden="true"><div class="progress" id="progress"></div></div>
+              <div class="pill" id="status" aria-live="polite">0 correct · 0 faux</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Settings panel -->
+    <section id="panel-settings" role="tabpanel" aria-labelledby="tabbtn-settings" hidden>
+      <aside class="card" aria-label="Paramètres et résultats">
+        <div class="panel">
+          <h2 style="margin-top:0">Paramètres & Infos</h2>
+          <div class="chip">Mode: QCM (1 bonne réponse sauf mention contraire)</div>
+          <div style="height:10px"></div>
+          <div class="filters">
+            <strong>Filtres de génération</strong>
+            <div class="row" id="themes"></div>
+            <div class="row" id="levels"></div>
+            <div class="row">
+              <label class="chip"><input id="count" type="number" min="1" step="1" value="40" style="width:80px;margin-right:8px"> nb questions</label>
+              <button id="btn-apply-filters" class="btn">Générer avec filtres</button>
+              <span class="tag" id="filtered-size">Pool filtré: …</span>
+            </div>
+          </div>
+          <div style="height:10px"></div>
+          <label class="chip"><input id="toggle-instant" type="checkbox" style="margin-right:8px"> Correction immédiate</label>
+          <label class="chip"><input id="toggle-explanations" type="checkbox" checked style="margin-right:8px"> Afficher l'explication après correction</label>
+          <label class="chip"><input id="toggle-shuffle-answers" type="checkbox" checked style="margin-right:8px"> Mélanger les propositions</label>
+          <div style="height:10px"></div>
+          <div class="chip" id="pool-size">Banque de questions: …</div>
+          <div class="chip" id="seed-info">Seed: auto</div>
+          <div class="chip"><button id="btn-clear" class="btn btn-ghost" style="padding:6px 10px">Effacer sauvegarde</button></div>
+          <div class="result" id="result" style="display:none">
+            <div id="score" class="score">0 / 0</div>
+            <div class="subtitle" id="score-note">—</div>
+            <div class="toolbar" style="justify-content:center">
+              <button id="btn-review" class="btn btn-primary">Revoir mes réponses</button>
+              <button id="btn-retry-wrong" class="btn">Rejouer mes erreurs</button>
+            </div>
+          </div>
+          <div id="review" class="review" style="display:none"></div>
+        </div>
+      </aside>
+    </section>
+  </div>
+
+  <script defer src="questions.js"></script>
+  <script>
+    const $ = s => document.querySelector(s);
+    // Branding
+    const BRAND = 'Auto École Nounours';
+    const BRAND_SLUG = 'auto-ecole-nounours'; // utilisé pour les noms de fichiers
+    document.title = `${BRAND} – Entraînement Permis Moto`;
+
+    const $$ = s => Array.from(document.querySelectorAll(s));
+    const formatTime = s => `${String(Math.floor(s/60)).padStart(2,'0')}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+
+    function sample(arr, n, seed){ const a = arr.slice(); let rand = Math.random; if(seed !== undefined){ let st = seed>>>0; rand = () => (st = (1664525*st + 1013904223)>>>0) / 2**32; } for(let i=a.length-1;i>0;i--){ const j = Math.floor(rand()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a.slice(0,n); }
+    const shuffle = (arr, seed) => sample(arr, arr.length, seed);
+
+    const STATE = { series: [], answers: {}, checked: {}, current: 0, startTime: null, timer: null, seed: null, count: 40, filters:{themes:new Set(), levels:new Set()} };
+    const STORAGE_KEY = 'quiz-moto-state-v3';
+    const TAB_KEY = 'quiz-moto-tab';
+
+    function detectTheme(){ const saved = localStorage.getItem('theme'); if(saved){ document.documentElement.setAttribute('data-theme', saved); return; } const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches; document.documentElement.setAttribute('data-theme', prefersLight? 'light':'dark'); }
+    function toggleTheme(){ const cur = document.documentElement.getAttribute('data-theme'); const next = cur==='light'?'dark':'light'; document.documentElement.setAttribute('data-theme', next); localStorage.setItem('theme', next); }
+
+    function unique(arr){ return Array.from(new Set(arr)); }
+    function buildFilters(){ if(!Array.isArray(window.BANK)) return; const themes = unique(BANK.map(q=>q.theme)).sort(); const levels = unique(BANK.map(q=>q.level)).sort(); const thWrap = $('#themes'); thWrap.innerHTML=''; themes.forEach(t=>{ const id=`th_${t}`; const l=document.createElement('label'); l.className='chip'; l.innerHTML=`<input type="checkbox" id="${id}" data-type="theme" value="${t}" style="margin-right:6px"> ${t}`; thWrap.appendChild(l); }); const lvWrap = $('#levels'); lvWrap.innerHTML=''; levels.forEach(lv=>{ const id=`lv_${lv}`; const l=document.createElement('label'); l.className='chip'; l.innerHTML=`<input type="checkbox" id="${id}" data-type="level" value="${lv}" style="margin-right:6px"> ${lv}`; lvWrap.appendChild(l); }); $$('#themes input, #levels input').forEach(inp=>{ inp.addEventListener('change', onFilterChange, {passive:true}); }); updateFilteredPoolInfo(); }
+
+    function getFilteredPool(){ const tSel = STATE.filters.themes; const lSel = STATE.filters.levels; return BANK.filter(q => (tSel.size? tSel.has(q.theme):true) && (lSel.size? lSel.has(q.level):true)); }
+    function updateFilteredPoolInfo(){ const pool = getFilteredPool(); const tag=$('#filtered-size'); if(tag) tag.textContent = `Pool filtré: ${pool.length}`; }
+    function onFilterChange(e){ const el=e.target; const val=el.value; const type=el.dataset.type; const set= type==='theme'? STATE.filters.themes : STATE.filters.levels; el.checked ? set.add(val) : set.delete(val); updateFilteredPoolInfo(); saveState(); }
+
+    function newSeries(withSeed){ if(!Array.isArray(window.BANK) || BANK.length===0){ alert('La banque de questions (BANK) est introuvable ou vide. Vérifie questions.js'); return; } const pool = getFilteredPool(); STATE.seed = withSeed ?? Math.floor(Math.random()*2**31); STATE.count = Math.min(Number($('#count')?.value||40), pool.length || BANK.length); const chosenFrom = pool.length? pool : BANK; const series = sample(chosenFrom, STATE.count, STATE.seed).map((q,i)=>({q, idx:i})); STATE.series = series; STATE.answers = {}; STATE.checked = {}; STATE.current = 0; STATE.startTime = Date.now(); if(STATE.timer) clearInterval(STATE.timer); STATE.timer = setInterval(updateTimer, 1000); $('#seed-info').textContent = `Seed: ${STATE.seed}`; $('#pool-size').textContent = `Banque de questions: ${BANK.length}`; $('#subtitle').textContent = `${BRAND} · Série générée aléatoirement · ${STATE.count} question${STATE.count>1?'s':''}`; $('#result').style.display='none'; $('#review').style.display='none'; renderCurrent(); updateProgress(); updateFilteredPoolInfo(); saveState(); }
+
+    function updateTimer(){ const secs = Math.floor((Date.now()-STATE.startTime)/1000); $('#timer').textContent = `Temps: ${formatTime(secs)}`; }
+
+    function renderCurrent(){ const { current, series } = STATE; const item = series[current]; if(!item) return; $('#q-index').textContent = `Question ${current+1}/${series.length}`; $('#q-text').textContent = item.q.question; $('#q-meta').textContent = `Thème: ${item.q.theme} · Niveau: ${item.q.level}${item.q.multi?' · MULTI':''}`; const wrap = $('#answers'); wrap.innerHTML=''; const frag=document.createDocumentFragment(); const indices=item.q.answers.map((_,i)=>i); const order = $('#toggle-shuffle-answers')?.checked ? shuffle(indices, (STATE.seed + current)>>>0) : indices; order.forEach((ansIdx)=>{ const label=document.createElement('label'); label.className='answer'; label.tabIndex=0; const input=document.createElement('input'); input.type = item.q.multi ? 'checkbox' : 'radio'; input.name = `q_${current}`; input.value = ansIdx; input.checked = (STATE.answers[current] || new Set()).has(ansIdx); input.addEventListener('change', ()=>toggleAnswer(current, ansIdx, item.q.multi), {passive:true}); const span=document.createElement('span'); span.textContent = item.q.answers[ansIdx]; label.appendChild(input); label.appendChild(span); frag.appendChild(label); }); wrap.appendChild(frag); $('#exp-wrap').style.display='none'; $('#explanation').textContent = item.q.explanation || ''; $('#btn-prev').disabled = current===0; $('#btn-next').disabled = current===series.length-1; if($('#toggle-instant')?.checked && STATE.answers[current] && STATE.answers[current].size>0){ checkCurrent(false); } saveState(); }
+
+    function toggleAnswer(qIdx, ansIdx, multi){ if(!STATE.answers[qIdx]) STATE.answers[qIdx] = new Set(); const set = STATE.answers[qIdx]; if(multi){ set.has(ansIdx) ? set.delete(ansIdx) : set.add(ansIdx); } else { set.clear(); set.add(ansIdx); } if($('#toggle-instant')?.checked) checkCurrent(false); updateProgress(); saveState(); }
+
+    function isCorrect(q, chosen){ if(q.multi){ const corr = new Set(q.correct); if(chosen.size !== corr.size) return false; for(const c of chosen){ if(!corr.has(Number(c))) return false; } return true; } const [c] = Array.from(chosen); return Number(c) === Number(q.correct); }
+
+    function checkCurrent(showAlert=true){ const { current, series } = STATE; const item = series[current]; const chosen = STATE.answers[current] || new Set(); if(chosen.size===0){ if(showAlert) alert('Choisissez au moins une proposition.'); return; } const ok = isCorrect(item.q, chosen); STATE.checked[current] = ok; $$('#answers .answer').forEach(el=>{ el.classList.remove('is-correct','is-wrong'); }); const right = item.q.multi ? new Set(item.q.correct) : new Set([item.q.correct]); $$('#answers .answer').forEach(el=>{ const val = Number(el.querySelector('input').value); const chosenNow = (STATE.answers[current]||new Set()).has(val); if(right.has(val)) el.classList.add('is-correct'); else if(chosenNow) el.classList.add('is-wrong'); }); if($('#toggle-explanations')?.checked) $('#exp-wrap').style.display='block'; $('#btn-next').animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}], {duration:220, easing:'ease-out'}); updateProgress(); saveState(); }
+
+    function updateProgress(){ const total = STATE.series.length; const answered = Object.values(STATE.answers).filter(s=>s && s.size>0).length; const correct = Object.entries(STATE.checked).filter(([_,ok])=>ok===true).length; const wrong = Object.entries(STATE.checked).filter(([_,ok])=>ok===false).length; $('#status').textContent = `${correct} correct · ${wrong} faux · ${total-answered} restants`; $('#progress').style.width = `${(answered/total)*100}%`; if(answered===total) showResults(); }
+
+    function showResults(){ const total = STATE.series.length; const correct = Object.entries(STATE.checked).filter(([_,ok])=>ok===true).length; const scoreEl = $('#score'); scoreEl.textContent = `${correct} / ${total}`; scoreEl.classList.remove('good','mid','bad'); const ratio = correct/total; if(ratio>=.8) scoreEl.classList.add('good'); else if(ratio>=.5) scoreEl.classList.add('mid'); else scoreEl.classList.add('bad'); $('#score-note').textContent = ratio>=.8? 'Excellent !' : ratio>=.5? 'Bien, encore un petit effort.' : 'Continuez : révisez vos thèmes faibles.'; $('#result').style.display='grid'; const wrap = $('#review'); wrap.innerHTML=''; STATE.series.forEach((item,i)=>{ const div = document.createElement('div'); div.className='review-item'; const ok = STATE.checked[i]===true; div.innerHTML = `<div class="status ${ok?'ok':'ko'}">${ok?'✔ Correct':'✖ Faux'} — Q${i+1} (${item.q.theme})</div><div style="font-weight:700; margin-top:4px">${item.q.question}</div><ul style="margin:8px 0 0 18px; padding:0">${item.q.answers.map((a,j)=>`<li${(item.q.multi?item.q.correct.includes(j):j===item.q.correct)?' style=\"font-weight:700\"':''}>${a}</li>`).join('')}</ul>${item.q.explanation?`<div class="explanation" style="margin-top:8px">${item.q.explanation}</div>`:''}`; wrap.appendChild(div); }); wrap.style.display='grid'; saveState(); }
+
+    function serializeState(){ return JSON.stringify({ STATE: { ...STATE, answers: Object.fromEntries(Object.entries(STATE.answers).map(([k,v])=>[k, Array.from(v||[])])) }, toggles:{ instant: $('#toggle-instant')?.checked, expl: $('#toggle-explanations')?.checked, shuffle: $('#toggle-shuffle-answers')?.checked }, count: Number($('#count')?.value||40) }); }
+    function saveState(){ try{ localStorage.setItem(STORAGE_KEY, serializeState()); }catch(e){} }
+    function restoreState(){ try{ const raw = localStorage.getItem(STORAGE_KEY); if(!raw) return false; const data = JSON.parse(raw); if(!data || !data.STATE) return false; Object.assign(STATE, data.STATE); Object.keys(STATE.answers).forEach(k=>{ STATE.answers[k] = new Set(STATE.answers[k]); }); if($('#toggle-instant')) $('#toggle-instant').checked = !!data.toggles?.instant; if($('#toggle-explanations')) $('#toggle-explanations').checked = data.toggles?.expl!==false; if($('#toggle-shuffle-answers')) $('#toggle-shuffle-answers').checked = data.toggles?.shuffle!==false; if($('#count')) $('#count').value = data.count || 40; return true; }catch(e){ return false; } }
+
+    // Tabs
+    function setTab(tab){ const isQuiz = tab==='quiz'; const quizPanel=$('#panel-quiz'); const setPanel=$('#panel-settings'); quizPanel.hidden = !isQuiz; setPanel.hidden = isQuiz; $('#tabbtn-quiz').setAttribute('aria-selected', isQuiz? 'true':'false'); $('#tabbtn-settings').setAttribute('aria-selected', !isQuiz? 'true':'false'); localStorage.setItem(TAB_KEY, tab); }
+
+    // Actions
+    $('#btn-prev').addEventListener('click', ()=>{ STATE.current = Math.max(0, STATE.current-1); renderCurrent(); }, {passive:true});
+    $('#btn-next').addEventListener('click', ()=>{ STATE.current = Math.min(STATE.series.length-1, STATE.current+1); renderCurrent(); }, {passive:true});
+    $('#btn-check').addEventListener('click', ()=>checkCurrent(), {passive:true});
+    $('#btn-new').addEventListener('click', ()=>newSeries(), {passive:true});
+    $('#btn-reset').addEventListener('click', ()=>{ if(confirm('Réinitialiser la série en cours ?')) newSeries(STATE.seed); }, {passive:true});
+    $('#btn-review').addEventListener('click', ()=>{ setTab('settings'); document.querySelector('#review').scrollIntoView({behavior:'smooth'}); }, {passive:true});
+    $('#btn-retry-wrong').addEventListener('click', ()=>{ const wrongIdx = Object.entries(STATE.checked).filter(([_,ok])=>ok===false).map(([i])=>Number(i)); if(wrongIdx.length===0){ alert('Aucune erreur à rejouer.'); return; } const wrongQs = wrongIdx.map(i=>STATE.series[i].q); const needed = Math.max(0, STATE.count - wrongQs.length); const extra = sample(BANK.filter(q=>!wrongQs.includes(q)), needed, (STATE.seed+999)>>>0); STATE.seed = (STATE.seed+12345)>>>0; STATE.series = [...wrongQs,...extra].map((q,i)=>({q,idx:i})); STATE.answers={}; STATE.checked={}; STATE.current=0; STATE.startTime=Date.now(); setTab('quiz'); renderCurrent(); updateProgress(); window.scrollTo({top:0,behavior:'smooth'}); saveState(); }, {passive:true});
+
+    $('#toggle-instant')?.addEventListener('change', ()=>{ renderCurrent(); saveState(); }, {passive:true});
+    $('#toggle-explanations')?.addEventListener('change', ()=>{ if(!$('#toggle-explanations').checked) $('#exp-wrap').style.display='none'; saveState(); }, {passive:true});
+    $('#toggle-shuffle-answers')?.addEventListener('change', ()=>{ renderCurrent(); saveState(); }, {passive:true});
+    $('#btn-apply-filters')?.addEventListener('click', ()=>{ newSeries(); setTab('quiz'); }, {passive:true});
+    $('#count')?.addEventListener('change', ()=>{ if($('#count').value<1) $('#count').value = 1; updateFilteredPoolInfo(); saveState(); });
+    $('#btn-clear')?.addEventListener('click', ()=>{ localStorage.removeItem(STORAGE_KEY); alert('Sauvegarde effacée.'); }, {passive:true});
+    $('#btn-theme').addEventListener('click', toggleTheme);
+
+    // Tab buttons
+    $('#tabbtn-quiz').addEventListener('click', ()=>setTab('quiz'));
+    $('#tabbtn-settings').addEventListener('click', ()=>setTab('settings'));
+
+    window.addEventListener('DOMContentLoaded', ()=>{
+      detectTheme();
+      if(!Array.isArray(window.BANK) || !BANK.length){ console.warn('BANK indisponible.'); return; }
+      buildFilters();
+      const restored = restoreState();
+      const savedTab = localStorage.getItem(TAB_KEY) || 'quiz';
+      setTab(savedTab);
+      if(restored && STATE.series.length){ renderCurrent(); updateProgress(); updateFilteredPoolInfo(); }
+      else { newSeries(); }
+    });
+  </script>
+</body>
+</html>
