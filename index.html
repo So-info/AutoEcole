@@ -9,94 +9,167 @@
   <meta property="og:title" content="Auto École Nounours – Entraînement Permis Moto">
   <meta property="og:description" content="Entraînez-vous au code moto avec Auto École Nounours : séries personnalisées, filtres par thèmes et sauvegarde automatique.">
 
-  <style>
-    :root{
-      --bg:#0b1220; --bg-soft:#0e1628; --card:#0f192e; --card-2:#0e172a; --text:#e5e7eb; --muted:#9ca3af; --line:rgba(255,255,255,.08);
-      --accent:#22d3ee; --accent-2:#60a5fa; --success:#34d399; --warning:#fbbf24; --danger:#f87171; --ring:0 0 0 2px color-mix(in oklab, var(--accent) 45%, transparent);
-      --brand:#f59e0b; --brand-2:#f97316; --accent:var(--brand); --accent-2:var(--brand-2);
-    }
-    :root[data-theme="light"]{ --bg:#f6f8fc; --bg-soft:#edf1f7; --card:#ffffff; --card-2:#f7fafc; --text:#0b1220; --muted:#586174; --line:rgba(0,0,0,.08); --accent:#0ea5e9; --accent-2:#6366f1 }
+<style>
+  :root{
+    --bg:#0b1220; --bg-soft:#0e1628; --card:#0f192e; --card-2:#0e172a; --text:#e5e7eb; --muted:#9ca3af; --line:rgba(255,255,255,.08);
+    --accent:#22d3ee; --accent-2:#60a5fa; --success:#34d399; --warning:#fbbf24; --danger:#f87171;
+    --brand:#f59e0b; --brand-2:#f97316; --accent:var(--brand); --accent-2:var(--brand-2);
+    --ring:0 0 0 2px color-mix(in oklab, var(--accent) 45%, transparent);
+  }
+  :root[data-theme="light"]{
+    --bg:#f6f8fc; --bg-soft:#edf1f7; --card:#ffffff; --card-2:#f7fafc; --text:#0b1220; --muted:#586174; --line:rgba(0,0,0,.08);
+    --accent:#0ea5e9; --accent-2:#6366f1
+  }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial;color:var(--text);
-      background:
-        radial-gradient(1200px 800px at 70% -10%, color-mix(in oklab, var(--bg) 80%, #172036) 0%, transparent 40%),
-        radial-gradient(900px 600px at -10% 120%, color-mix(in oklab, var(--bg) 90%, #0b1220) 0%, transparent 50%),
-        linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
-      -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility
-    }
-    .container{max-width:1000px;margin:0 auto;padding:16px}
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial;color:var(--text);
+    background:
+      radial-gradient(1200px 800px at 70% -10%, color-mix(in oklab, var(--bg) 80%, #172036) 0%, transparent 40%),
+      radial-gradient(900px 600px at -10% 120%, color-mix(in oklab, var(--bg) 90%, #0b1220) 0%, transparent 50%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility
+  }
+  .container{max-width:1000px;margin:0 auto;padding:16px}
 
-    header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
-    .title{font-size:clamp(22px,5vw,34px);font-weight:800;letter-spacing:.2px}
-    .subtitle{color:var(--muted);font-size:14px}
+  header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+  .title{font-size:clamp(22px,5vw,34px);font-weight:800;letter-spacing:.2px}
+  .subtitle{color:var(--muted);font-size:14px}
 
-    .tabs{display:flex;gap:8px;align-items:center;margin:8px 0 16px;border-bottom:1px solid var(--line)}
-    .tab{appearance:none;background:transparent;border:none;color:var(--muted);font-weight:700;padding:10px 14px;border-radius:10px 10px 0 0;cursor:pointer}
-    .tab[aria-selected="true"]{color:var(--text);background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01));border:1px solid var(--line);border-bottom-color:transparent}
+  /* Tabs */
+  .tabs{display:flex;gap:8px;align-items:center;margin:8px 0 16px;border-bottom:1px solid var(--line)}
+  .tab{
+    appearance:none;background:transparent;border:none;color:var(--muted);
+    font-weight:800;letter-spacing:.2px;padding:10px 14px;border-radius:10px 10px 0 0;cursor:pointer;
+    transition:color .15s ease, background .15s ease
+  }
+  .tab:hover{color:var(--text)}
+  .tab[aria-selected="true"]{
+    color:var(--text);
+    background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+    border:1px solid var(--line);border-bottom-color:transparent
+  }
 
-    .card{background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.02)),linear-gradient(180deg, var(--card), var(--card-2));border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.02);overflow:hidden}
-    .panel{padding:16px}
+  /* Cards */
+  .card{
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.02)),
+      linear-gradient(180deg, var(--card), var(--card-2));
+    border:1px solid var(--line);border-radius:18px;
+    box-shadow:0 8px 30px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.02);
+    overflow:hidden
+  }
+  .panel{padding:16px}
 
-    .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-    .btn{cursor:pointer;min-height:44px;border:1px solid var(--line);background:linear-gradient(180deg,#0b1426,#0a1324);color:#e5e7eb;padding:12px 14px;border-radius:12px;font-weight:700;transition:.15s transform,.15s opacity,.15s box-shadow}
-    :root[data-theme="light"] .btn{background:linear-gradient(180deg,#f3f4f6,#eceff4);color:#0b1220}
-    .btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.2)}
-    .btn:disabled{opacity:.5;cursor:not-allowed}
-    .btn-primary{background:linear-gradient(180deg, color-mix(in oklab, var(--accent) 30%, transparent), color-mix(in oklab, var(--accent-2) 30%, transparent));border-color:rgba(34,211,238,.35);color:var(--text)}
-    .btn-ghost{background:transparent}
-    .btn-toggle{display:flex;align-items:center;gap:8px}
-    .btn-group{display:flex;gap:8px}
-    .btn-group .btn{flex:1 1 0}
+  /* Toolbars */
+  .toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  /* centrage du CTA de l’examen blanc */
+  #card-exam .toolbar{justify-content:center}
 
-    .question-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-    .q-index{font-weight:800;letter-spacing:.5px;color:var(--accent)}
-    .chip{padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.03);font-size:13px;color:var(--muted)}
-    :root[data-theme="light"] .chip{background:#f7fafc}
+  /* Boutons modernisés */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;
+    min-height:44px;padding:12px 16px;font-weight:800;letter-spacing:.2px;border-radius:14px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, color-mix(in oklab, var(--card) 85%, transparent),
+                                      color-mix(in oklab, var(--card-2) 85%, transparent));
+    color:var(--text);
+    box-shadow:0 6px 24px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.06);
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease, opacity .15s ease
+  }
+  :root[data-theme="light"] .btn{background:linear-gradient(180deg,#f7fafc,#eef2f7);color:#0b1220}
+  .btn:hover{transform:translateY(-1px);box-shadow:0 10px 28px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.08)}
+  .btn:active{transform:translateY(0) scale(.98)}
+  .btn:focus-visible{outline:none;box-shadow: var(--ring), 0 0 0 1px color-mix(in oklab, var(--accent) 60%, transparent)}
+  .btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
 
-    .answers{display:grid;gap:10px;margin-top:12px}
-    .answer{position:relative;display:flex;gap:12px;align-items:center;padding:14px 14px 14px 46px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.02);min-height:52px;transition:.12s border-color,.12s background,.12s transform}
-    :root[data-theme="light"] .answer{background:#fff}
-    .answer:hover{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.04)}
-    :root[data-theme="light"] .answer:hover{background:#f8fafc}
-    .answer input{position:absolute;left:14px;width:22px;height:22px;margin:0;appearance:none;outline:none;border-radius:50%}
-    .answer input[type="checkbox"]{border-radius:6px}
-    .answer input::before{content:"";display:block;width:22px;height:22px;border-radius:inherit;border:2px solid color-mix(in oklab, var(--accent) 75%, #93c5fd 25%);box-shadow: inset 0 0 0 2px transparent}
-    .answer input:checked::before{background:linear-gradient(180deg, var(--accent), var(--accent-2));border-color:transparent;box-shadow: inset 0 0 0 2px rgba(0,0,0,.2)}
-    .answer:has(input:focus-visible){box-shadow:var(--ring)}
-    .answer.is-correct{border-color:rgba(52,211,153,.6)!important;background:rgba(52,211,153,.12)!important}
-    .answer.is-wrong{border-color:rgba(248,113,113,.6)!important;background:rgba(248,113,113,.10)!important}
+  /* Variantes */
+  .btn-primary{
+    border-color: color-mix(in oklab, var(--accent) 45%, transparent);
+    background:linear-gradient(180deg, color-mix(in oklab, var(--accent) 60%, transparent),
+                                      color-mix(in oklab, var(--accent-2) 45%, transparent));
+  }
+  .btn-outline{background:transparent;border-color: color-mix(in oklab, var(--accent) 40%, transparent)}
+  .btn-ghost{background:transparent;border-color: var(--line);box-shadow: inset 0 1px 0 rgba(255,255,255,.04)}
+  .btn-lg{min-height:52px;padding:14px 20px;font-size:16px;border-radius:16px}
+  .btn-sm{min-height:36px;padding:8px 12px;font-size:13px;border-radius:12px}
+  .btn-toggle{display:inline-flex;align-items:center;gap:8px}
 
-    .explanation{font-size:14px;color:var(--muted);border-left:3px solid rgba(34,211,238,.4);padding-left:12px}
+  /* Groupes */
+  .btn-group{display:flex;gap:10px;flex-wrap:wrap}
+  .btn-group .btn{flex:0 0 auto}
 
-    .footer-sticky{position:sticky;bottom:0;z-index:2;background:linear-gradient(180deg, color-mix(in oklab, var(--bg) 40%, transparent), var(--bg));backdrop-filter:blur(6px);border-top:1px solid var(--line);padding:10px;border-radius:14px}
-    .footer{display:flex;align-items:center;gap:12px}
-    .footer-progress{flex:1;display:grid;gap:6px}
-    .progress-wrap{position:relative;height:10px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden}
-    :root[data-theme="light"] .progress-wrap{background:#e5e7eb}
-    .progress{position:absolute;inset:0;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
-    .pill{font-size:12px;color:var(--muted)}
+  /* Question */
+  .question-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  .q-index{font-weight:800;letter-spacing:.5px;color:var(--accent)}
+  .chip{padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.03);font-size:13px;color:var(--muted)}
+  :root[data-theme="light"] .chip{background:#f7fafc}
 
-    .filters{display:grid;gap:8px}
-    .filters .row{display:flex;flex-wrap:wrap;gap:8px}
-    .tag{padding:6px 10px;border:1px dashed var(--line);border-radius:999px;background:rgba(255,255,255,.03);font-size:13px}
-    :root[data-theme="light"] .tag{background:#f7fafc}
+  /* Réponses */
+  .answers{display:grid;gap:10px;margin-top:12px}
+  .answer{
+    position:relative;display:flex;gap:12px;align-items:center;
+    padding:14px 14px 14px 46px;border-radius:14px;border:1px solid var(--line);
+    background:rgba(255,255,255,.02);min-height:52px;
+    transition:.12s border-color,.12s background,.12s transform
+  }
+  :root[data-theme="light"] .answer{background:#fff}
+  .answer:hover{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.04)}
+  :root[data-theme="light"] .answer:hover{background:#f8fafc}
+  .answer input{position:absolute;left:14px;width:22px;height:22px;margin:0;appearance:none;outline:none;border-radius:50%}
+  .answer input[type="checkbox"]{border-radius:6px}
+  .answer input::before{content:"";display:block;width:22px;height:22px;border-radius:inherit;border:2px solid color-mix(in oklab, var(--accent) 75%, #93c5fd 25%);box-shadow: inset 0 0 0 2px transparent}
+  .answer input:checked::before{background:linear-gradient(180deg, var(--accent), var(--accent-2));border-color:transparent;box-shadow: inset 0 0 0 2px rgba(0,0,0,.2)}
+  .answer:has(input:focus-visible){box-shadow:var(--ring)}
+  .answer.is-correct{border-color:rgba(52,211,153,.6)!important;background:rgba(52,211,153,.12)!important}
+  .answer.is-wrong{border-color:rgba(248,113,113,.6)!important;background:rgba(248,113,113,.10)!important}
 
-    .result{display:grid;gap:14px;text-align:center;padding:22px;background:radial-gradient(800px 400px at 0% 0%,rgba(34,211,238,.08),rgba(255,255,255,0))}
-    .score{font-size:clamp(34px,7vw,60px);font-weight:900;letter-spacing:-.5px}
-    .score.good{color:var(--success)} .score.mid{color:var(--warning)} .score.bad{color:var(--danger)}
-    .review{display:grid;gap:12px;margin-top:12px}
-    .review-item{border:1px solid var(--line);border-radius:14px;padding:12px;background:rgba(255,255,255,.02);box-shadow:inset 0 1px 0 rgba(255,255,255,.02)}
-    :root[data-theme="light"] .review-item{background:#fff}
-    .review-item .status{font-weight:700}
-    .ok{color:var(--success)} .ko{color:var(--danger)}
-    details summary{cursor:pointer}
+  .explanation{font-size:14px;color:var(--muted);border-left:3px solid rgba(34,211,238,.4);padding-left:12px}
 
-    @media (max-width:380px){ .panel{padding:12px} .answer{padding:12px 12px 12px 44px} .answer input{left:12px} .btn{padding:10px 12px;border-radius:10px} }
-    @media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
-  </style>
+  /* Footer */
+  .footer-sticky{
+    position:sticky;bottom:0;z-index:2;
+    background:linear-gradient(180deg, color-mix(in oklab, var(--bg) 40%, transparent), var(--bg));
+    backdrop-filter:blur(6px);border-top:1px solid var(--line);padding:10px;border-radius:14px
+  }
+  .footer{display:flex;align-items:center;gap:12px}
+  .footer-progress{flex:1;display:grid;gap:6px}
+  .progress-wrap{position:relative;height:10px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden}
+  :root[data-theme="light"] .progress-wrap{background:#e5e7eb}
+  .progress{position:absolute;inset:0;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+  .pill{font-size:12px;color:var(--muted)}
+
+  /* Filtres & résultats */
+  .filters{display:grid;gap:8px}
+  .filters .row{display:flex;flex-wrap:wrap;gap:8px}
+  .tag{padding:6px 10px;border:1px dashed var(--line);border-radius:999px;background:rgba(255,255,255,.03);font-size:13px}
+  :root[data-theme="light"] .tag{background:#f7fafc}
+  .result{display:grid;gap:14px;text-align:center;padding:22px;background:radial-gradient(800px 400px at 0% 0%,rgba(34,211,238,.08),rgba(255,255,255,0))}
+  .score{font-size:clamp(34px,7vw,60px);font-weight:900;letter-spacing:-.5px}
+  .score.good{color:var(--success)} .score.mid{color:var(--warning)} .score.bad{color:var(--danger)}
+  .review{display:grid;gap:12px;margin-top:12px}
+  .review-item{border:1px solid var(--line);border-radius:14px;padding:12px;background:rgba(255,255,255,.02);box-shadow:inset 0 1px 0 rgba(255,255,255,.02)}
+  :root[data-theme="light"] .review-item{background:#fff}
+  .review-item .status{font-weight:700}
+  .ok{color:var(--success)} .ko{color:var(--danger)}
+  details summary{cursor:pointer}
+
+  /* Responsive tweaks */
+  @media (max-width:520px){
+    .toolbar .btn{flex:1 1 100%}
+    .footer .toolbar{width:100%}
+    .footer .toolbar .btn{flex:1 1 auto;min-width:0}
+  }
+  @media (max-width:380px){
+    .panel{padding:12px}
+    .answer{padding:12px 12px 12px 44px}
+    .answer input{left:12px}
+    .btn{padding:10px 12px;border-radius:10px}
+  }
+  @media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
+</style>
+
 </head>
 <body>
   <div class="container">
@@ -117,6 +190,20 @@
       <button id="tabbtn-quiz" class="tab" role="tab" aria-selected="true" aria-controls="panel-quiz">Quiz</button>
       <button id="tabbtn-settings" class="tab" role="tab" aria-selected="false" aria-controls="panel-settings">Paramètres & Infos</button>
     </nav>
+    <!-- Examen blanc card (NOUVEAU) -->
+    <section id="card-exam" class="card" aria-label="Examen blanc" style="margin-bottom:12px">
+      <div class="panel">
+        <h2 style="margin:0">Examen blanc – 40 questions</h2>
+        <p class="subtitle" style="margin:6px 0 12px">
+          Répondez aux 40 questions. Les résultats ne s’affichent qu’à la fin.
+        </p>
+        <div class="toolbar">
+        <button id="btn-start-exam" class="btn btn-primary btn-lg">Commencer l'examen blanc</button>
+        <button id="btn-exit-exam" class="btn btn-outline" style="display:none">Quitter le mode examen</button>
+        </div>
+        <div class="chip" id="exam-hint" style="display:none"></div>
+      </div>
+    </section>
 
     <!-- Quiz panel -->
     <section id="panel-quiz" role="tabpanel" aria-labelledby="tabbtn-quiz">
@@ -140,8 +227,8 @@
           <div class="footer">
             <div class="toolbar" style="flex:0 0 auto">
               <button id="btn-prev" class="btn" disabled>Précédent</button>
-              <button id="btn-next" class="btn btn-primary">Suivant</button>
-              <button id="btn-check" class="btn">Vérifier</button>
+              <button id="btn-next" class="btn btn-primary btn-lg">Suivant</button>
+              <button id="btn-check" class="btn btn-lg">Vérifier</button>
             </div>
             <div class="footer-progress">
               <div class="progress-wrap" aria-hidden="true"><div class="progress" id="progress"></div></div>
@@ -217,7 +304,19 @@
     }
     const shuffle = (arr, seed) => sample(arr, arr.length, seed);
 
-    const STATE = { series: [], answers: {}, checked: {}, current: 0, startTime: null, timer: null, seed: null, count: 40, filters:{themes:new Set(), levels:new Set()} };
+    const STATE = {
+      series: [],
+      answerOrders: [],
+      answers: {},
+      checked: {},
+      current: 0,
+      startTime: null,
+      timer: null,
+      seed: null,
+      count: 40,
+      filters:{themes:new Set(), levels:new Set()},
+      mode: 'training' // 'training' | 'exam'
+    };
     const STORAGE_KEY = 'quiz-moto-state-v3';
     const TAB_KEY = 'quiz-moto-tab';
 
@@ -261,75 +360,163 @@
     }
 
     function newSeries(withSeed){
-      if(!Array.isArray(window.BANK) || BANK.length===0){ alert('La banque de questions (BANK) est introuvable ou vide. Vérifie questions.js'); return; }
+      if(!Array.isArray(window.BANK) || BANK.length===0){
+        alert('La banque de questions (BANK) est introuvable ou vide. Vérifie questions.js');
+        return;
+      }
       const pool = getFilteredPool();
       STATE.seed = withSeed ?? Math.floor(Math.random()*2**31);
       STATE.count = Math.min(Number($('#count')?.value||40), pool.length || BANK.length);
       const chosenFrom = pool.length? pool : BANK;
       const series = sample(chosenFrom, STATE.count, STATE.seed).map((q,i)=>({q, idx:i}));
       STATE.series = series;
-      STATE.answers = {}; STATE.checked = {};
-      STATE.current = 0; STATE.startTime = Date.now();
+      STATE.answerOrders = series.map((item, i) => {
+        const ids = item.q.answers.map((_, j) => j);
+        const s = (STATE.seed ^ ((i + 1) * 2654435761)) >>> 0;
+        return shuffle(ids, s);
+      });
+      STATE.answers = {};
+      STATE.checked = {};
+      STATE.current = 0;
+      STATE.startTime = Date.now();
       if(STATE.timer) clearInterval(STATE.timer);
       STATE.timer = setInterval(updateTimer, 1000);
-
+    
       $('#seed-info').textContent = `Seed: ${STATE.seed}`;
       $('#pool-size').textContent = `Banque de questions: ${BANK.length}`;
-      $('#subtitle').textContent = `${BRAND} · Série générée aléatoirement · ${STATE.count} question${STATE.count>1?'s':''}`;
-
-      // Masquer la carte résultat (désormais dans l'onglet Quiz)
+    
+      // Sous-titre selon mode
+      if (STATE.mode === 'exam') {
+        $('#subtitle').textContent = `${BRAND} · Examen blanc · 40 questions`;
+      } else {
+        $('#subtitle').textContent = `${BRAND} · Série générée aléatoirement · ${STATE.count} question${STATE.count>1?'s':''}`;
+      }
+    
+      // Cacher la carte résultat
       setDisplay('#card-result','none');
       setDisplay('#result','none');
       setDisplay('#review','none');
-
+    
+      // Ajuster UI selon mode
+      if (STATE.mode === 'exam') {
+        setDisplay('#btn-check','none');
+        setDisplay('#exp-wrap','none');
+        setDisplay('#exam-hint','inline-block');
+        setDisplay('#btn-exit-exam','inline-flex');
+      } else {
+        setDisplay('#btn-check','inline-flex');
+        setDisplay('#exam-hint','none');
+        setDisplay('#btn-exit-exam','none');
+      }
+    
       renderCurrent();
       updateProgress();
       updateFilteredPoolInfo();
       saveState();
     }
 
+
     function updateTimer(){
       const secs = Math.floor((Date.now()-STATE.startTime)/1000);
       $('#timer').textContent = `Temps: ${formatTime(secs)}`;
     }
 
-    function renderCurrent(){
-      const { current, series } = STATE; const item = series[current]; if(!item) return;
-      $('#q-index').textContent = `Question ${current+1}/${series.length}`;
-      $('#q-text').textContent = item.q.question;
-      $('#q-meta').textContent = `Thème: ${item.q.theme} · Niveau: ${item.q.level}${item.q.multi?' · MULTI':''}`;
+function renderCurrent(){
+  const { current, series } = STATE;
+  const item = series[current];
+  if(!item) return;
 
-      const wrap = $('#answers'); wrap.innerHTML='';
-      const frag=document.createDocumentFragment();
-      const indices=item.q.answers.map((_,i)=>i);
-      const order = $('#toggle-shuffle-answers')?.checked ? shuffle(indices, (STATE.seed + current)>>>0) : indices;
-      order.forEach((ansIdx)=>{
-        const label=document.createElement('label'); label.className='answer'; label.tabIndex=0;
-        const input=document.createElement('input'); input.type = item.q.multi ? 'checkbox' : 'radio';
-        input.name = `q_${current}`; input.value = ansIdx;
-        input.checked = (STATE.answers[current] || new Set()).has(ansIdx);
-        input.addEventListener('change', ()=>toggleAnswer(current, ansIdx, item.q.multi), {passive:true});
-        const span=document.createElement('span'); span.textContent = item.q.answers[ansIdx];
-        label.appendChild(input); label.appendChild(span); frag.appendChild(label);
-      });
-      wrap.appendChild(frag);
+  $('#q-index').textContent = `Question ${current+1}/${series.length}`;
+  $('#q-text').textContent = item.q.question;
+  $('#q-meta').textContent = `Thème: ${item.q.theme} · Niveau: ${item.q.level}${item.q.multi?' · MULTI':''}`;
 
-      setDisplay('#exp-wrap','none');
-      $('#explanation').textContent = item.q.explanation || '';
-      $('#btn-prev').disabled = current===0;
-      $('#btn-next').disabled = current===series.length-1;
-      if($('#toggle-instant')?.checked && STATE.answers[current] && STATE.answers[current].size>0){ checkCurrent(false); }
-      saveState();
-    }
+  const wrap = $('#answers');
+  wrap.innerHTML='';
+  const frag=document.createDocumentFragment();
+  const indices=item.q.answers.map((_,i)=>i);
+  const order = $('#toggle-shuffle-answers')?.checked ? (STATE.answerOrders[current] || indices) : indices;
 
-    function toggleAnswer(qIdx, ansIdx, multi){
-      if(!STATE.answers[qIdx]) STATE.answers[qIdx] = new Set();
-      const set = STATE.answers[qIdx];
-      if(multi){ set.has(ansIdx) ? set.delete(ansIdx) : set.add(ansIdx); }
-      else { set.clear(); set.add(ansIdx); }
-      if($('#toggle-instant')?.checked) checkCurrent(false);
-      updateProgress(); saveState();
-    }
+  order.forEach((ansIdx)=>{
+    const label=document.createElement('label');
+    label.className='answer';
+    label.tabIndex=0;
+    const input=document.createElement('input');
+    input.type = item.q.multi ? 'checkbox' : 'radio';
+    input.name = `q_${current}`;
+    input.value = ansIdx;
+    input.checked = (STATE.answers[current] || new Set()).has(ansIdx);
+    input.addEventListener('change', ()=>toggleAnswer(current, ansIdx, item.q.multi), {passive:true});
+    const span=document.createElement('span');
+    span.textContent = item.q.answers[ansIdx];
+    label.appendChild(input);
+    label.appendChild(span);
+    frag.appendChild(label);
+  });
+  wrap.appendChild(frag);
+
+  // Explications masquées par défaut
+  setDisplay('#exp-wrap','none');
+  $('#explanation').textContent = item.q.explanation || '';
+
+  // Boutons nav : "Précédent" actif sauf à la première question
+  $('#btn-prev').disabled = current===0;
+
+  // Pas de correction automatique en mode examen
+  if (STATE.mode !== 'exam' && $('#toggle-instant')?.checked && STATE.answers[current] && STATE.answers[current].size>0){
+    checkCurrent(false);
+  }
+
+  // >>> (NOUVEAU) Bloquer "Suivant" et "Vérifier" tant qu'il n'y a pas de réponse
+  const answered = !!(STATE.answers[current] && STATE.answers[current].size > 0);
+
+  // "Suivant" actif seulement si une réponse est donnée et qu'on n'est pas à la dernière question
+  $('#btn-next').disabled = (!answered) || (current === series.length - 1);
+
+  // "Vérifier" actif seulement si une réponse est donnée (et jamais en mode examen)
+  if ($('#btn-check')) {
+    $('#btn-check').disabled = (!answered) || (STATE.mode === 'exam');
+  }
+  // <<< FIN NOUVEAU
+
+  saveState();
+}
+
+
+
+function toggleAnswer(qIdx, ansIdx, multi){
+  if(!STATE.answers[qIdx]) STATE.answers[qIdx] = new Set();
+  const set = STATE.answers[qIdx];
+
+  if(multi){
+    set.has(ansIdx) ? set.delete(ansIdx) : set.add(ansIdx);
+  } else {
+    set.clear();
+    set.add(ansIdx);
+  }
+
+  // Pas de correction auto en mode examen
+  if ($('#toggle-instant')?.checked && STATE.mode !== 'exam') {
+    checkCurrent(false);
+  }
+
+  // >>> (NOUVEAU) Mettre à jour les états des boutons en direct
+  const hasAns = !!(STATE.answers[qIdx] && STATE.answers[qIdx].size > 0);
+
+  if ($('#btn-next')) {
+    const isLast = qIdx === (STATE.series.length - 1);
+    $('#btn-next').disabled = (!hasAns) || isLast;
+  }
+
+  if ($('#btn-check')) {
+    $('#btn-check').disabled = (!hasAns) || (STATE.mode === 'exam');
+  }
+  // <<< FIN NOUVEAU
+
+  updateProgress();
+  saveState();
+}
+
+
 
     function isCorrect(q, chosen){
       if(q.multi){
@@ -343,13 +530,23 @@
     }
 
     function checkCurrent(showAlert=true){
-      const { current, series } = STATE; const item = series[current];
+      // En examen : on ne montre rien question par question
+      if (STATE.mode === 'exam') return;
+    
+      const { current, series } = STATE;
+      const item = series[current];
       const chosen = STATE.answers[current] || new Set();
-      if(chosen.size===0){ if(showAlert) alert('Choisissez au moins une proposition.'); return; }
+    
+      if(chosen.size===0){
+        if(showAlert) alert('Choisissez au moins une proposition.');
+        return;
+      }
+    
       const ok = isCorrect(item.q, chosen);
       STATE.checked[current] = ok;
-
+    
       $$('#answers .answer').forEach(el=>{ el.classList.remove('is-correct','is-wrong'); });
+    
       const right = item.q.multi ? new Set(item.q.correct) : new Set([item.q.correct]);
       $$('#answers .answer').forEach(el=>{
         const val = Number(el.querySelector('input').value);
@@ -357,21 +554,68 @@
         if(right.has(val)) el.classList.add('is-correct');
         else if(chosenNow) el.classList.add('is-wrong');
       });
-
+    
       if($('#toggle-explanations')?.checked) setDisplay('#exp-wrap','block');
+    
       $('#btn-next').animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}], {duration:220, easing:'ease-out'});
-      updateProgress(); saveState();
+    
+      updateProgress();
+      saveState();
     }
+
 
     function updateProgress(){
       const total = STATE.series.length;
       const answered = Object.values(STATE.answers).filter(s=>s && s.size>0).length;
       const correct = Object.entries(STATE.checked).filter(([_,ok])=>ok===true).length;
       const wrong = Object.entries(STATE.checked).filter(([_,ok])=>ok===false).length;
-      $('#status').textContent = `${correct} correct · ${wrong} faux · ${total-answered} restants`;
+    
+      if (STATE.mode === 'exam') {
+        $('#status').textContent = `${answered}/${total} répondues · ${total-answered} restantes`;
+      } else {
+        $('#status').textContent = `${correct} correct · ${wrong} faux · ${total-answered} restants`;
+      }
+    
       $('#progress').style.width = `${(answered/total)*100}%`;
-      if(answered===total) showResults();
+    
+      if(answered===total){
+        if (STATE.mode === 'exam') {
+          computeExamResults();
+        }
+        showResults();
+      }
     }
+
+function enterExamMode() {
+  STATE.mode = 'exam';
+  // imposer 40 questions, pas d’explications ni correction auto
+  if ($('#toggle-instant')) $('#toggle-instant').checked = false;
+  if ($('#toggle-explanations')) $('#toggle-explanations').checked = false;
+  if ($('#count')) $('#count').value = 40;
+
+  newSeries();
+  $('#subtitle').textContent = `${BRAND} · Examen blanc · 40 questions`;
+  setDisplay('#btn-check','none');
+  setDisplay('#exp-wrap','none');
+  setDisplay('#exam-hint','inline-block');
+  setDisplay('#btn-exit-exam','inline-flex');
+}
+
+function exitExamMode() {
+  STATE.mode = 'training';
+  $('#subtitle').textContent = `${BRAND} · Série générée aléatoirement · ${STATE.count} question${STATE.count>1?'s':''}`;
+  setDisplay('#btn-check','inline-flex');
+  setDisplay('#exam-hint','none');
+  setDisplay('#btn-exit-exam','none');
+}
+
+function computeExamResults(){
+  STATE.checked = {};
+  STATE.series.forEach((item,i)=>{
+    const chosen = STATE.answers[i] || new Set();
+    STATE.checked[i] = isCorrect(item.q, chosen);
+  });
+}
 
     function showResults(){
       const total = STATE.series.length;
@@ -442,6 +686,20 @@
     }
 
     // Actions
+    $('#btn-start-exam')?.addEventListener('click', ()=>{
+      enterExamMode();
+      setTab('quiz');
+      window.scrollTo({top:0, behavior:'smooth'});
+    }, {passive:true});
+
+    $('#btn-exit-exam')?.addEventListener('click', ()=>{
+      if (confirm('Quitter le mode examen ? Les corrections par question seront réactivées.')) {
+        exitExamMode();
+        renderCurrent();
+        updateProgress();
+      }
+    }, {passive:true});
+
     $('#btn-prev').addEventListener('click', ()=>{ STATE.current = Math.max(0, STATE.current-1); renderCurrent(); }, {passive:true});
     $('#btn-next').addEventListener('click', ()=>{ STATE.current = Math.min(STATE.series.length-1, STATE.current+1); renderCurrent(); }, {passive:true});
     $('#btn-check').addEventListener('click', ()=>checkCurrent(), {passive:true});
